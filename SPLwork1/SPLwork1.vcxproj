@@ -110,6 +110,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\Desktop\Action.h" />
+    <ClInclude Include="..\..\..\..\..\Desktop\Customer.h" />
+    <ClInclude Include="..\..\..\..\..\Desktop\Dish.h" />
+    <ClInclude Include="..\..\..\..\..\Desktop\Restaurant.h" />
+    <ClInclude Include="..\..\..\..\..\Desktop\Table.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\Desktop\Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
