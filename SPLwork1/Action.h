@@ -117,9 +117,9 @@ private:
 };
 
 
-class RestoreResturant : public BaseAction {
+class RestoreRestaurant : public BaseAction {
 public:
-	RestoreResturant();
+	RestoreRestaurant();
 	void act(Restaurant &restaurant);
 	std::string toString() const;
 

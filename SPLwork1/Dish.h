@@ -1,7 +1,7 @@
 #ifndef DISH_H_
 #define DISH_H_
-
 #include <string>
+using namespace std;
 
 enum DishType {
 	VEG, SPC, BVG, ALC
@@ -9,18 +9,18 @@ enum DishType {
 
 class Dish {
 public:
-	Dish(int d_id, std::string d_name, int d_price, DishType d_type);
+	Dish(int d_id, string d_name, int d_price, DishType d_type);
 	Dish(const Dish& Other);
 	Dish(const Dish&& Other);
 	Dish* operator=(const Dish& other);
 	Dish* operator=(const Dish&& other);
 	int getId() const;
-	std::string getName() const;
+	string getName() const;
 	int getPrice() const;
 	DishType getType() const;
 private:
 	const int id;
-	const std::string name;
+	const string name;
 	const int price;
 	const DishType type;
 };
