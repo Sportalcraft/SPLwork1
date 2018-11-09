@@ -3,31 +3,62 @@
 #include <string>
 #include "iostream"
 #include "string"
+using namespace std;
 
-
-Customer::Customer()
+Customer ::Customer(string c_name, int c_id)
 {
-
+    this->name(c_name);
+    this->id(c_id);
 }
 
-VegetarianCustomer::VegetarianCustomer(std::string name, int id): public Customer
+string Customer ::getName() const
 {
-
+    return this->name;
 }
 
-CheapCustomer::CheapCustomer(std::string name, int id): public Customer
+int Customer ::getId() const
 {
-
+    return this->id;
 }
 
-SpicyCustomer::SpicyCustomer(std::string name, int id): public Customer
+VegetarianCustomer::VegetarianCustomer(string name, int id): public Customer
 {
-
+    this->name(c_name);
+    this->id(c_id);
+}
+string VegetarianCustomer::toString() const
+{
+    return getName() + " " + getId() + " - VegetarianCustomer";
 }
 
-AlchoholicCustomer::AlchoholicCustomer(std::string name, int id):public Customer
+CheapCustomer::CheapCustomer(string name, int id): public Customer
 {
+    this->name(c_name);
+    this->id(c_id);
+}
+string CheapCustomer ::toString() const
+{
+    return getName() + " " + getId() + " - CheapCustomer";
+}
 
+SpicyCustomer::SpicyCustomer(string name, int id): public Customer
+{
+    this->name(c_name);
+    this->id(c_id);
+}
+string SpicyCustomer::toString() const
+{
+    return getName() + " " + getId() + " - SpicyCustomer";
+}
+
+AlchoholicCustomer::AlchoholicCustomer(string name, int id):public Customer
+{
+    this->name(c_name);
+    this->id(c_id);
+}
+string AlchoholicCustomer::toString() const
+{
+    return getName() + " " + getId() + " - AlchoholicCustomer";
 }
 
 Customer::~Customer()
