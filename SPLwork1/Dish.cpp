@@ -17,6 +17,13 @@ Dish::Dish(const Dish&& Other) : id(Other.id), name(Other.name), price(Other.pri
 
 Dish * Dish::operator=(const Dish & other)
 {
+	if (this != &other)
+	{
+		//id = other.id;
+		//name = other.name;
+		//price = other.price;
+		//type = other.type;
+	}
 	return this;
 }
 

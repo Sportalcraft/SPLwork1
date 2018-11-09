@@ -10,6 +10,11 @@ typedef std::pair<int, Dish> OrderPair;
 class Table {
 public:
 	Table(int t_capacity);
+	Table(const Table & Other);
+	Table(const Table && Other);
+	~Table();
+	Table * operator=(const Table & other);
+	Table * operator=(const Table && other);
 	int getCapacity() const;
 	void addCustomer(Customer* customer);
 	void removeCustomer(int id);
