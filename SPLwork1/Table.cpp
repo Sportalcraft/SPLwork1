@@ -11,7 +11,7 @@ Table::~Table()
 Table::Table(int t_capacity)
 {
 	capacity = t_capacity;
-	open = true;	
+	open = false;	
 }
 
 Table::Table(const Table& Other)
