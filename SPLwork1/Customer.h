@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "Dish.h"
+
 using namespace std;
 
 class Customer {
@@ -15,7 +16,8 @@ public:
 	int getId() const;
 private:
 	const string name;
-	const int id
+	const int id;
+	vector<Dish> orders;
 };
 
 
@@ -48,7 +50,7 @@ private:
 
 class AlchoholicCustomer : public Customer {
 public:
-	AlchoholicCustomer(string name, int id)
+	AlchoholicCustomer(string name, int id);
 	vector<int> order(const vector<Dish> &menu);
 	string toString() const;
 private:
