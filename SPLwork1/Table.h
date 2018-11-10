@@ -11,10 +11,10 @@ class Table {
 public:
 	Table(int t_capacity);
 	Table(const Table & Other);
-	Table(const Table && Other);
+	Table(Table && Other);
 	~Table();
 	Table * operator=(const Table & other);
-	Table * operator=(const Table && other);
+	Table * operator=(Table && other);
 	int getCapacity() const;
 	void addCustomer(Customer* customer);
 	void removeCustomer(int id);
@@ -26,11 +26,16 @@ public:
 	void closeTable();
 	int getBill();
 	bool isOpen();
+
 private:
 	int capacity;
 	bool open;
 	std::vector<Customer*> customersList;
 	std::vector<OrderPair> orderList; //A list of pairs for each order in a table - (customer_id, Dish)
+
+	void copy(const Table & Other);
+	void move(Table&& Other);
+	void clear();
 };
 
 

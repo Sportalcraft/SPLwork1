@@ -19,5 +19,12 @@ int main(int argc, char** argv) {
 //	}
 
 	Table t(3);
+	Customer* c = new CheapCustomer("Tal", 123);
+	t.addCustomer(c);
+	Customer* c2 = t.getCustomers()[0];
+	
+	if (c == c2)
+		throw new exception("no new object");
+
 	return 0;
 }
