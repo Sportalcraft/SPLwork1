@@ -13,8 +13,8 @@ public:
 	Dish(const Dish& Other);
 	Dish(const Dish&& Other);
 	~Dish();
-	Dish* operator=(const Dish& other);
-	Dish* operator=(const Dish&& other);
+	//Dish* operator=(const Dish& other);
+	//Dish* operator=(const Dish&& other);
 	int getId() const;
 	std::string getName() const;
 	int getPrice() const;

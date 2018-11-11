@@ -159,7 +159,7 @@ void MoveCustomer::act(Restaurant & restaurant)
 
 	Table* sorce;
 	Table* destenation;
-	Customer* customer;
+	Customer* customer = nullptr;
 	std::vector<OrderPair> customerOrders;
 
 	try
@@ -314,7 +314,7 @@ PrintTableStatus::~PrintTableStatus()
 void PrintTableStatus::act(Restaurant & restaurant)
 {
 	Table* table;
-	std::string* status;
+	std::string* status = nullptr;
 
 	try
 	{

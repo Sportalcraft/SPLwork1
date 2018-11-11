@@ -55,7 +55,7 @@ int Table::getCapacity() const
 
 void Table::addCustomer(Customer * customer)
 {
-	if(customersList.size = capacity) // table is full
+	if(customersList.size() == capacity) // table is full
 		throw std::exception("Table is full!");
 	
 	for each (Customer* cus in customersList)
