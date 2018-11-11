@@ -1,5 +1,7 @@
 #include "Table.h"
 
+#include <iostream>
+
 
 Table::~Table()
 {
@@ -53,9 +55,12 @@ int Table::getCapacity() const
 
 void Table::addCustomer(Customer * customer)
 {
+	if(customersList.size = capacity) // table is full
+		throw std::exception("Table is full!");
+	
 	for each (Customer* cus in customersList)
 		if (cus->getId() == customer->getId()) // alrady in the table
-			return;
+			throw std::exception("Already in the table!");
 	
 	customersList.push_back(customer->clone()); // must clone
 }
@@ -85,7 +90,7 @@ Customer * Table::getCustomer(int id)
 			return cus->clone(); // must clone
 	}
 
-	return nullptr; // No match found
+	throw std::exception("customer no found!"); // No match found
 }
 
 std::vector<Customer*>& Table::getCustomers()
@@ -96,6 +101,31 @@ std::vector<Customer*>& Table::getCustomers()
 std::vector<OrderPair>& Table::getOrders()
 {
 	return orderList;
+}
+
+std::vector<OrderPair>& Table::getRemoveOrdersOfCustomer(int id)
+{
+	std::vector<OrderPair> orders;
+	int pos = 0;
+
+	for each (OrderPair pair in orderList)
+	{
+		if (pair.first == id) // order from our custoner
+		{
+			orders.push_back(pair);
+			orderList.erase(orderList.begin() + pos);
+		}
+
+		pos++;
+	}
+
+	return orders;
+}
+
+void Table::addOrders(std::vector<OrderPair>& orders)
+{
+	for each (OrderPair pair in orders)
+		orderList.push_back(pair);
 }
 
 void Table::order(const std::vector<Dish>& menu)
@@ -116,7 +146,7 @@ void Table::order(const std::vector<Dish>& menu)
 				orderList.push_back(OrderPair(cus->getId(), dish)); // push order
 
 				//print order
-				//Cout << cus->getName() + " ordered " + dish.getName(); <<endl
+				std::cout << cus->getName() + " ordered " + dish.getName() << std::endl;
 			}
 		}
 	}
@@ -135,7 +165,8 @@ void Table::closeTable()
 	if (!open) // already close
 		throw std::exception("Table already close!");
 
-	open = false;
+	open = false;	
+	clear(); //remove existing data
 }
 
 int Table::getBill()

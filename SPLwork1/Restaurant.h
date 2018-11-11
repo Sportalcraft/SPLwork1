@@ -12,6 +12,10 @@ class Restaurant {
 public:
 	Restaurant();
 	Restaurant(const std::string &configFilePath);
+	Restaurant(const Restaurant& restaurant);
+	Restaurant* operator=(const Restaurant& restaurant);
+	Restaurant* operator=(Restaurant&& restaurant);
+	(const Restaurant& restaurant);
 	~Restaurant();
 	void start();
 	int getNumOfTables() const;

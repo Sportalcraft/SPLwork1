@@ -10,6 +10,24 @@ Restaurant::Restaurant(const std::string & configFilePath)
 {
 }
 
+Restaurant::Restaurant(const Restaurant & restaurant)
+{
+}
+
+Restaurant * Restaurant::operator=(const Restaurant & restaurant)
+{
+	return nullptr;
+}
+
+Restaurant * Restaurant::operator=(Restaurant && restaurant)
+{
+	return nullptr;
+}
+
+Restaurant::Restaurant(Restaurant && restaurant)
+{
+}
+
 Restaurant::~Restaurant()
 {
 }
@@ -25,7 +43,7 @@ int Restaurant::getNumOfTables() const
 
 Table * Restaurant::getTable(int ind)
 {
-	return nullptr;
+	return tables[ind]; // no cloning!
 }
 
 const std::vector<BaseAction*>& Restaurant::getActionsLog() const
