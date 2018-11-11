@@ -74,7 +74,7 @@ void Table::removeCustomer(int id)
 		if (cus->getId() == id) // the positin of dessired customer was found
 		{
 			// the customer was found, need to delete it
-			customersList.erase(customersList.begin() + pos);
+			customersList.erase(customersList.begin() + pos); 
 			return;
 		}
 
@@ -103,7 +103,7 @@ std::vector<OrderPair>& Table::getOrders()
 	return orderList;
 }
 
-std::vector<OrderPair>& Table::getRemoveOrdersOfCustomer(int id)
+std::vector<OrderPair> Table::getRemoveOrdersOfCustomer(int id)
 {
 	std::vector<OrderPair> orders;
 	int pos = 0;
@@ -113,7 +113,7 @@ std::vector<OrderPair>& Table::getRemoveOrdersOfCustomer(int id)
 		if (pair.first == id) // order from our custoner
 		{
 			orders.push_back(pair);
-			orderList.erase(orderList.begin() + pos);
+			//orderList.erase(orderList.begin() + pos); //banana
 		}
 
 		pos++;
@@ -192,7 +192,7 @@ void Table::copy(const Table & Other)
 {
 	capacity = Other.capacity;
 	open = Other.open;
-	orderList = Other.orderList;
+	//orderList = Other.orderList; // banana
 
 	//coppy customers
 	for each (Customer* cus in Other.customersList)
@@ -203,7 +203,7 @@ void Table::move(Table && Other)
 {
 	capacity = Other.capacity;
 	open = Other.open;
-	orderList = Other.orderList;
+	//orderList = Other.orderList; // banana
 	customersList = Other.customersList;
 
 	//Delete old

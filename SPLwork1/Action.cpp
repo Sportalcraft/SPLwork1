@@ -28,7 +28,7 @@ void BaseAction::complete()
 void BaseAction::error(std::string errorMsg)
 {
 	status = ERROR;
-	this->errorMsg = errorMsg;
+	this->errorMsg = errorMsg; 
 }
 
 std::string BaseAction::getErrorMsg() const
@@ -44,7 +44,7 @@ std::string BaseAction::getErrorToString() const
 	if (getStatus() == ERROR)
 		return getErrorMsg();
 
-	return std::string();
+	return std::string(); 
 }
 
 OpenTable::OpenTable(int id, std::vector<Customer*>& customersList) :BaseAction(), tableId(id), customers(customersList)
@@ -55,7 +55,7 @@ OpenTable::~OpenTable()
 {
 	//delete customers
 	for each (Customer* cus in customers)
-		delete& cus;
+		delete& cus; 
 }
 
 void OpenTable::act(Restaurant & restaurant)
@@ -97,7 +97,7 @@ std::string OpenTable::toString() const
 	for each (Customer* cus in customers)
 		customersString += cus->toString() + " ";
 	
-	return "open " + std::to_string(tableId) + " " + customersString + getErrorToString();
+	return "open " + std::to_string(tableId) + " " + customersString + getErrorToString(); 
 }
 
 Order::Order(int id) : BaseAction(), tableId(id)
@@ -121,7 +121,7 @@ void Order::act(Restaurant & restaurant)
 			throw std::exception("table is close!");
 
 		table->order(restaurant.getMenu());
-		order = table->getOrders(); // already print to screen
+		//order = table->getOrders(); // already print to screen // banana
 
 		complete(); // action excecuted succesfully
 	}
@@ -168,7 +168,7 @@ void MoveCustomer::act(Restaurant & restaurant)
 		destenation = restaurant.getTable(dstTable);
 		customer = sorce->getCustomer(id);
 		destenation->addCustomer(customer);
-		customerOrders = sorce->getRemoveOrdersOfCustomer(id);
+		//customerOrders = sorce->getRemoveOrdersOfCustomer(id); // banana
 		sorce->removeCustomer(id);
 		destenation->addOrders(customerOrders);
 
@@ -196,7 +196,7 @@ void MoveCustomer::act(Restaurant & restaurant)
 
 std::string MoveCustomer::toString() const
 {
-	return "Move " + std::to_string(srcTable) + " " + std::to_string(dstTable) + " " + std::to_string(id) + " " + getErrorToString();
+	return "Move " + std::to_string(srcTable) + " " + std::to_string(dstTable) + " " + std::to_string(id) + " " + getErrorToString(); 
 }
 
 Close::Close(int id) :BaseAction(), tableId(id)
@@ -226,7 +226,7 @@ void Close::act(Restaurant & restaurant)
 	{
 		//Table no found
 		error("Table does not exist or is not open");
-	}
+	} 
 
 	//if(table != nullptr)
 	//	delete& table; // delete the table at the end
@@ -300,7 +300,7 @@ void PrintMenu::act(Restaurant & restaurant)
 
 std::string PrintMenu::toString() const
 {
-	return "menu " + getErrorToString();
+	return "menu " + getErrorToString(); 
 }
 
 PrintTableStatus::PrintTableStatus(int id) : BaseAction(), tableId(id)
@@ -339,7 +339,7 @@ void PrintTableStatus::act(Restaurant & restaurant)
 				std::cout << pair.second.getName() + " " + std::to_string(pair.second.getPrice()) + "NIS " + std::to_string(pair.first) << std::endl;
 
 			//print bill
-			std::cout << "Current bill: " + table->getBill() + std::string("NIS") << std::endl;
+			std::cout << "Current bill: " + table->getBill() + std::string("NIS") << std::endl; 
 		}
 
 	}
@@ -374,7 +374,7 @@ void PrintActionsLog::act(Restaurant & restaurant)
 {
 	//print all actions
 	for each (BaseAction* act in restaurant.getActionsLog())
-		std::cout << act << std::endl;
+		std::cout << act << std::endl; 
 }
 
 //BaseAction * PrintActionsLog::clone() const
@@ -384,7 +384,7 @@ void PrintActionsLog::act(Restaurant & restaurant)
 
 std::string PrintActionsLog::toString() const
 {
-	return "log  " + getErrorToString();
+	return "log  " + getErrorToString(); 
 }
 
 BackupRestaurant::BackupRestaurant() : BaseAction()
@@ -412,7 +412,7 @@ void BackupRestaurant::act(Restaurant & restaurant)
 
 std::string BackupRestaurant::toString() const
 {
-	return "backup " + getErrorToString();
+	return "backup " + getErrorToString(); 
 }
 
 RestoreResturant::RestoreResturant() : BaseAction()
@@ -430,7 +430,7 @@ void RestoreResturant::act(Restaurant & restaurant)
 	if (backup == nullptr) // no backup
 		error("No backup available");
 	else
-		restaurant = *backup; // restoring
+		restaurant = *backup; // restoring 
 }
 
 //BaseAction * RestoreResturant::clone() const
