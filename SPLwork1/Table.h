@@ -13,8 +13,8 @@ public:
 	Table(const Table & Other);
 	Table(Table && Other);
 	~Table();
-	Table * operator=(const Table & other);
-	Table * operator=(Table && other);
+	Table& operator=(const Table & other);
+	Table& operator=(Table && other);
 	int getCapacity() const;
 	void addCustomer(Customer* customer);
 	void removeCustomer(int id);

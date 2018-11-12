@@ -26,7 +26,7 @@ Table::Table(Table&& Other)
 	move(std::move(Other));
 }
 
-Table * Table::operator=(const Table & other)
+Table & Table::operator=(const Table & other)
 {
 	if (this != &other)
 	{
@@ -34,10 +34,10 @@ Table * Table::operator=(const Table & other)
 		copy(other); // get new data
 	}
 
-	return this;
+	return *this;
 }
 
-Table * Table::operator=(Table&& other)
+Table & Table::operator=(Table&& other)
 {
 	if (this != &other)
 	{
@@ -45,7 +45,7 @@ Table * Table::operator=(Table&& other)
 		move(std::move(other)); // get new data		
 	}
 
-	return this;
+	return *this;
 }
 
 int Table::getCapacity() const

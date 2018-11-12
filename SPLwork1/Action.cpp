@@ -25,7 +25,7 @@ BaseAction::~BaseAction()
 {
 }
 
-BaseAction * BaseAction::operator=(const BaseAction & other)
+BaseAction & BaseAction::operator=(const BaseAction & other)
 {
 
 	if (this != &other)
@@ -34,10 +34,10 @@ BaseAction * BaseAction::operator=(const BaseAction & other)
 		copy(other); // get new data
 	}
 
-	return this;
+	return *this;
 }
 
-BaseAction * BaseAction::operator=(BaseAction && other)
+BaseAction & BaseAction::operator=(BaseAction && other)
 {
 	if (this != &other)
 	{
@@ -45,7 +45,7 @@ BaseAction * BaseAction::operator=(BaseAction && other)
 		move(std::move(other)); // get new data		
 	}
 
-	return this;
+	return *this;
 }
 
 ActionStatus BaseAction::getStatus() const
@@ -366,16 +366,16 @@ CloseAll::~CloseAll()
 {
 }
 
-CloseAll * CloseAll::operator=(const CloseAll & other)
+CloseAll & CloseAll::operator=(const CloseAll & other)
 {
 	 BaseAction::operator=(other);
-	 return this;
+	 return *this;
 }
 
-CloseAll * CloseAll::operator=(CloseAll && other)
+CloseAll & CloseAll::operator=(CloseAll && other)
 {
 	BaseAction::operator=(other);
-	return this;
+	return *this;
 }
 
 void CloseAll::act(Restaurant & restaurant)
@@ -417,16 +417,16 @@ PrintMenu::~PrintMenu()
 {
 }
 
-PrintMenu * PrintMenu::operator=(const PrintMenu & other)
+PrintMenu & PrintMenu::operator=(const PrintMenu & other)
 {
 	BaseAction::operator=(other);
-	return this;
+	return *this;
 }
 
-PrintMenu * PrintMenu::operator=(PrintMenu && other)
+PrintMenu & PrintMenu::operator=(PrintMenu && other)
 {
 	BaseAction::operator=(other);
-	return this;
+	return *this;
 }
 
 void PrintMenu::act(Restaurant & restaurant)
@@ -530,16 +530,16 @@ PrintActionsLog::~PrintActionsLog()
 {
 }
 
-PrintActionsLog * PrintActionsLog::operator=(const PrintActionsLog & other)
+PrintActionsLog & PrintActionsLog::operator=(const PrintActionsLog & other)
 {
 	BaseAction::operator=(other);
-	return this;
+	return *this;
 }
 
-PrintActionsLog * PrintActionsLog::operator=(PrintActionsLog && other)
+PrintActionsLog & PrintActionsLog::operator=(PrintActionsLog && other)
 {
 	BaseAction::operator=(other);
-	return this;
+	return *this;
 }
 
 void PrintActionsLog::act(Restaurant & restaurant)
@@ -575,16 +575,16 @@ BackupRestaurant::~BackupRestaurant()
 {
 }
 
-BackupRestaurant * BackupRestaurant::operator=(const BackupRestaurant & other)
+BackupRestaurant & BackupRestaurant::operator=(const BackupRestaurant & other)
 {
 	BaseAction::operator=(other);
-	return this;
+	return *this;
 }
 
-BackupRestaurant * BackupRestaurant::operator=(BackupRestaurant && other)
+BackupRestaurant & BackupRestaurant::operator=(BackupRestaurant && other)
 {
 	BaseAction::operator=(other);
-	return this;
+	return *this;
 }
 
 void BackupRestaurant::act(Restaurant & restaurant)
@@ -623,16 +623,16 @@ RestoreResturant::~RestoreResturant()
 {
 }
 
-RestoreResturant * RestoreResturant::operator=(const RestoreResturant & other)
+RestoreResturant & RestoreResturant::operator=(const RestoreResturant & other)
 {
 	BaseAction::operator=(other);
-	return this;
+	return *this;
 }
 
-RestoreResturant * RestoreResturant::operator=(RestoreResturant && other)
+RestoreResturant & RestoreResturant::operator=(RestoreResturant && other)
 {
 	BaseAction::operator=(other);
-	return this;
+	return *this;
 }
 
 void RestoreResturant::act(Restaurant & restaurant)
