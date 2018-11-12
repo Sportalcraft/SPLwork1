@@ -21,8 +21,7 @@ public:
 	Customer* getCustomer(int id);
 	std::vector<Customer*>& getCustomers();
 	std::vector<OrderPair>& getOrders();
-	std::vector<OrderPair> getRemoveOrdersOfCustomer(int id);
-	void addOrders(std::vector<OrderPair>& orders);
+	void addOrder(OrderPair& order); // cat
 	void order(const std::vector<Dish> &menu);
 	void openTable();
 	void closeTable();
@@ -38,6 +37,7 @@ private:
 	void copy(const Table & Other);
 	void move(Table&& Other);
 	void clear();
+	std::vector<OrderPair> getOrdersCopy();
 };
 
 

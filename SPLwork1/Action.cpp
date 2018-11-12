@@ -117,11 +117,10 @@ void Order::act(Restaurant & restaurant)
 	{
 		table = restaurant.getTable(tableId);
 
-		if (!table->isOpen()) // table must be opem
+		if (!table->isOpen()) // table must be open
 			throw std::exception("table is close!");
 
-		table->order(restaurant.getMenu());
-		//order = table->getOrders(); // already print to screen // banana
+		table->order(restaurant.getMenu()); // already print to screen
 
 		complete(); // action excecuted succesfully
 	}
@@ -160,17 +159,22 @@ void MoveCustomer::act(Restaurant & restaurant)
 	Table* sorce;
 	Table* destenation;
 	Customer* customer = nullptr;
-	std::vector<OrderPair> customerOrders;
 
 	try
 	{
 		sorce = restaurant.getTable(srcTable);
 		destenation = restaurant.getTable(dstTable);
 		customer = sorce->getCustomer(id);
-		destenation->addCustomer(customer);
-		//customerOrders = sorce->getRemoveOrdersOfCustomer(id); // banana
-		sorce->removeCustomer(id);
-		destenation->addOrders(customerOrders);
+		
+		destenation->addCustomer(customer);		
+		std::vector<OrderPair>& AllsorceOrders = sorce->getOrders(); // banana ?
+
+		//moving orders
+		for each (OrderPair pair in AllsorceOrders)
+			if (pair.first == customer->getId()) // the order was made byour customer
+				destenation->addOrder(pair);
+
+		sorce->removeCustomer(id); // remive customer from src
 
 		complete(); // action excecuted succesfully
 	}

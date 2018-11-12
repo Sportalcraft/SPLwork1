@@ -69,17 +69,26 @@ void Table::removeCustomer(int id)
 {
 	int pos = 0;
 
+	// remove customer
 	for each (Customer* cus in customersList)
 	{
 		if (cus->getId() == id) // the positin of dessired customer was found
 		{
 			// the customer was found, need to delete it
-			customersList.erase(customersList.begin() + pos); 
-			return;
+			delete& cus; // delete the custoner object
+			customersList.erase(customersList.begin() + pos); //remove pointer reom vector
 		}
 
 		pos++;
 	}
+
+	//remove customer's orders	
+	std::vector<OrderPair>& tOrders = getOrdersCopy(); // save copy
+	orderList.clear(); // remove current orders
+
+	for each (OrderPair pair in tOrders)
+		if (pair.first != id) // order from diffrent custoner
+			orderList.push_back(pair); // push the order back, it's not soppsed to be deleted
 }
 
 Customer * Table::getCustomer(int id)
@@ -103,29 +112,9 @@ std::vector<OrderPair>& Table::getOrders()
 	return orderList;
 }
 
-std::vector<OrderPair> Table::getRemoveOrdersOfCustomer(int id)
+void Table::addOrder(OrderPair& order)
 {
-	std::vector<OrderPair> orders;
-	int pos = 0;
-
-	for each (OrderPair pair in orderList)
-	{
-		if (pair.first == id) // order from our custoner
-		{
-			orders.push_back(pair);
-			//orderList.erase(orderList.begin() + pos); //banana
-		}
-
-		pos++;
-	}
-
-	return orders;
-}
-
-void Table::addOrders(std::vector<OrderPair>& orders)
-{
-	for each (OrderPair pair in orders)
-		orderList.push_back(pair);
+	orderList.push_back(order);
 }
 
 void Table::order(const std::vector<Dish>& menu)
@@ -192,9 +181,12 @@ void Table::copy(const Table & Other)
 {
 	capacity = Other.capacity;
 	open = Other.open;
-	//orderList = Other.orderList; // banana
 
-	//coppy customers
+	//copy orders
+	for each (OrderPair pair in Other.orderList)
+		orderList.push_back(OrderPair(pair.first, pair.second)); // banana ?
+
+	//copy customers
 	for each (Customer* cus in Other.customersList)
 		customersList.push_back(cus->clone());
 }
@@ -203,7 +195,11 @@ void Table::move(Table && Other)
 {
 	capacity = Other.capacity;
 	open = Other.open;
-	//orderList = Other.orderList; // banana
+	
+	//move order
+	for each (OrderPair pair in Other.orderList)
+		orderList.push_back(OrderPair(pair.first, pair.second)); // banana ?
+
 	customersList = Other.customersList;
 
 	//Delete old
@@ -223,6 +219,18 @@ void Table::clear()
 
 	customersList.clear();
 }
+
+std::vector<OrderPair> Table::getOrdersCopy()
+{
+	std::vector<OrderPair> copy;
+
+	for each (OrderPair pair in orderList)
+		copy.push_back(OrderPair(pair.first, pair.second)); // banana ?
+
+	return copy;
+}
+
+
 
 
 
