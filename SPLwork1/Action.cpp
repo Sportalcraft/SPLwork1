@@ -146,7 +146,7 @@ void OpenTable::act(Restaurant & restaurant)
 
 BaseAction * OpenTable::clone() const
 {
-	return nullptr;
+	return new OpenTable(*this);
 }
 
 std::string OpenTable::toString() const
@@ -220,7 +220,7 @@ void Order::act(Restaurant & restaurant)
 
 BaseAction * Order::clone() const
 {
-	return nullptr;
+	return new Order(*this);
 }
 
 std::string Order::toString() const
@@ -287,7 +287,7 @@ void MoveCustomer::act(Restaurant & restaurant)
 
 BaseAction * MoveCustomer::clone() const
 {
-	return nullptr;
+	return new MoveCustomer(*this);
 }
 
 std::string MoveCustomer::toString() const
@@ -342,7 +342,7 @@ Close::~Close()
 
 BaseAction * Close::clone() const
 {
-	return nullptr;
+	return new Close(*this);
 }
 
 std::string Close::toString() const
@@ -354,11 +354,11 @@ CloseAll::CloseAll() : BaseAction()
 {
 }
 
-CloseAll::CloseAll(const Close & Other) : BaseAction(Other)
+CloseAll::CloseAll(const CloseAll & Other) : BaseAction(Other)
 {
 }
 
-CloseAll::CloseAll(Close && Other) : BaseAction(Other)
+CloseAll::CloseAll(CloseAll && Other) : BaseAction(Other)
 {
 }
 
@@ -393,7 +393,7 @@ void CloseAll::act(Restaurant & restaurant)
 
 BaseAction * CloseAll::clone() const
 {
-	return nullptr;
+	return new CloseAll(*this);
 }
 
 std::string CloseAll::toString() const
@@ -439,7 +439,7 @@ void PrintMenu::act(Restaurant & restaurant)
 
 BaseAction * PrintMenu::clone() const
 {
-	return nullptr;
+	return new PrintMenu(*this);
 }
 
 std::string PrintMenu::toString() const
@@ -506,7 +506,7 @@ void PrintTableStatus::act(Restaurant & restaurant)
 
 BaseAction * PrintTableStatus::clone() const
 {
-	return nullptr;
+	return new PrintTableStatus(*this);
 }
 
 std::string PrintTableStatus::toString() const
@@ -551,7 +551,7 @@ void PrintActionsLog::act(Restaurant & restaurant)
 
 BaseAction * PrintActionsLog::clone() const
 {
-	return nullptr;
+	return new PrintActionsLog(*this);
 }
 
 std::string PrintActionsLog::toString() const
@@ -599,7 +599,7 @@ void BackupRestaurant::act(Restaurant & restaurant)
 
 BaseAction * BackupRestaurant::clone() const
 {
-	return nullptr;
+	return new BackupRestaurant(*this);
 }
 
 std::string BackupRestaurant::toString() const
@@ -647,7 +647,7 @@ void RestoreResturant::act(Restaurant & restaurant)
 
 BaseAction * RestoreResturant::clone() const
 {
-	return nullptr;
+	return new RestoreResturant(*this);
 }
 
 std::string RestoreResturant::toString() const

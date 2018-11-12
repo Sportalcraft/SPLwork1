@@ -111,8 +111,8 @@ private:
 class CloseAll : public BaseAction {
 public:
 	CloseAll();
-	CloseAll(const Close& Other);
-	CloseAll(Close&& Other);
+	CloseAll(const CloseAll& Other);
+	CloseAll(CloseAll&& Other);
 	virtual ~CloseAll();
 	CloseAll* operator=(const CloseAll& other);
 	CloseAll* operator=(CloseAll&& other);
