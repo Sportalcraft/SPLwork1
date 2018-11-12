@@ -14,6 +14,7 @@ Restaurant::Restaurant()
 Restaurant ::Restaurant(const string &configFilePath)
 {
     open=true;
+
 }
 const vector<BaseAction *> & Restaurant::getActionsLog() const
 {

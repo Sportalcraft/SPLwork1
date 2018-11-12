@@ -15,7 +15,7 @@ public:
 	void start();
 	int getNumOfTables() const;
 	Table* getTable(int ind);
-	const std::vector<BaseAction*>& getActionsLog() const; // Return a reference to the history of actions
+	const vector<BaseAction*>& getActionsLog() const; // Return a reference to the history of actions
 	vector<Dish>& getMenu();
 
 private:
