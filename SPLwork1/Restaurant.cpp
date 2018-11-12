@@ -43,7 +43,7 @@ int Restaurant::getNumOfTables() const
 
 Table * Restaurant::getTable(int ind)
 {
-	return tables[ind]; // no cloning!
+	return tables[ind]; // no cloning
 }
 
 const std::vector<BaseAction*>& Restaurant::getActionsLog() const

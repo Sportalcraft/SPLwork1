@@ -11,8 +11,41 @@ BaseAction::BaseAction() : status(PENDING), errorMsg("")
 {
 }
 
+BaseAction::BaseAction(const BaseAction & Other)
+{
+	copy(Other);
+}
+
+BaseAction::BaseAction(BaseAction && Other)
+{
+	move(std::move(Other));
+}
+
 BaseAction::~BaseAction()
 {
+}
+
+BaseAction * BaseAction::operator=(const BaseAction & other)
+{
+
+	if (this != &other)
+	{
+		clear(); // delete all data
+		copy(other); // get new data
+	}
+
+	return this;
+}
+
+BaseAction * BaseAction::operator=(BaseAction && other)
+{
+	if (this != &other)
+	{
+		clear(); // delete all data
+		move(std::move(other)); // get new data		
+	}
+
+	return this;
 }
 
 ActionStatus BaseAction::getStatus() const
@@ -47,8 +80,34 @@ std::string BaseAction::getErrorToString() const
 	return std::string(); 
 }
 
+void BaseAction::copy(const BaseAction & Other)
+{
+	errorMsg = Other.errorMsg;
+	status = Other.status;
+}
+
+void BaseAction::move(BaseAction && Other)
+{
+	copy(Other); // no diffrent implimintation
+}
+
+void BaseAction::clear()
+{
+	errorMsg.clear();
+}
+
 OpenTable::OpenTable(int id, std::vector<Customer*>& customersList) :BaseAction(), tableId(id), customers(customersList)
 {
+}
+
+OpenTable::OpenTable(const OpenTable & Other) : BaseAction(Other), tableId(Other.tableId)
+{
+	copy(Other);
+}
+
+OpenTable::OpenTable(OpenTable && Other) : BaseAction(Other), tableId(Other.tableId)
+{
+	move(std::move(Other));
 }
 
 OpenTable::~OpenTable()
@@ -85,10 +144,10 @@ void OpenTable::act(Restaurant & restaurant)
 	//	delete& table; // delete the table at the end
 }
 
-//BaseAction * OpenTable::clone() const
-//{
-//	return nullptr;
-//}
+BaseAction * OpenTable::clone() const
+{
+	return nullptr;
+}
 
 std::string OpenTable::toString() const
 {
@@ -100,7 +159,32 @@ std::string OpenTable::toString() const
 	return "open " + std::to_string(tableId) + " " + customersString + getErrorToString(); 
 }
 
+void OpenTable::copy(const OpenTable & Other)
+{
+	//copy customers
+	for each (Customer* cus in Other.customers)
+		customers.push_back(cus->clone());
+}
+
+void OpenTable::move(OpenTable && Other)
+{
+	//move customers
+	for each (Customer* cus in Other.customers)
+		customers.push_back(cus);
+
+	//Delete old
+	Other.customers.clear();
+}
+
 Order::Order(int id) : BaseAction(), tableId(id)
+{
+}
+
+Order::Order(const Order & Other) : BaseAction(Other) , tableId(Other.tableId)
+{
+}
+
+Order::Order(Order && Other) : BaseAction(Other), tableId(Other.tableId)
 {
 }
 
@@ -134,10 +218,10 @@ void Order::act(Restaurant & restaurant)
 	//	delete& table; // delete the table at the end
 }
 
-//BaseAction * Order::clone() const
-//{
-//	return nullptr;
-//}
+BaseAction * Order::clone() const
+{
+	return nullptr;
+}
 
 std::string Order::toString() const
 {
@@ -145,6 +229,14 @@ std::string Order::toString() const
 }
 
 MoveCustomer::MoveCustomer(int src, int dst, int customerId) :BaseAction(), srcTable(src), dstTable(dst), id(customerId)
+{
+}
+
+MoveCustomer::MoveCustomer(const MoveCustomer & Other) : BaseAction(Other), srcTable(Other.srcTable), dstTable(Other.srcTable), id(Other.srcTable)
+{
+}
+
+MoveCustomer::MoveCustomer(MoveCustomer && Other) : BaseAction(Other), srcTable(Other.srcTable), dstTable(Other.srcTable), id(Other.srcTable)
 {
 }
 
@@ -193,10 +285,10 @@ void MoveCustomer::act(Restaurant & restaurant)
 		delete& customer;
 }
 
-//BaseAction * MoveCustomer::clone() const
-//{
-//	return nullptr;
-//}
+BaseAction * MoveCustomer::clone() const
+{
+	return nullptr;
+}
 
 std::string MoveCustomer::toString() const
 {
@@ -204,6 +296,14 @@ std::string MoveCustomer::toString() const
 }
 
 Close::Close(int id) :BaseAction(), tableId(id)
+{
+}
+
+Close::Close(const Close & Other) : BaseAction(Other), tableId(Other.tableId)
+{
+}
+
+Close::Close(Close && Other) : BaseAction(Other), tableId(Other.tableId)
 {
 }
 
@@ -240,10 +340,10 @@ Close::~Close()
 {
 }
 
-//BaseAction * Close::clone() const
-//{
-//	return nullptr;
-//}
+BaseAction * Close::clone() const
+{
+	return nullptr;
+}
 
 std::string Close::toString() const
 {
@@ -254,8 +354,28 @@ CloseAll::CloseAll() : BaseAction()
 {
 }
 
+CloseAll::CloseAll(const Close & Other) : BaseAction(Other)
+{
+}
+
+CloseAll::CloseAll(Close && Other) : BaseAction(Other)
+{
+}
+
 CloseAll::~CloseAll()
 {
+}
+
+CloseAll * CloseAll::operator=(const CloseAll & other)
+{
+	 BaseAction::operator=(other);
+	 return this;
+}
+
+CloseAll * CloseAll::operator=(CloseAll && other)
+{
+	BaseAction::operator=(other);
+	return this;
 }
 
 void CloseAll::act(Restaurant & restaurant)
@@ -271,10 +391,10 @@ void CloseAll::act(Restaurant & restaurant)
 	complete();
 }
 
-//BaseAction * CloseAll::clone() const
-//{
-//	return nullptr;
-//}
+BaseAction * CloseAll::clone() const
+{
+	return nullptr;
+}
 
 std::string CloseAll::toString() const
 {
@@ -285,8 +405,28 @@ PrintMenu::PrintMenu() : BaseAction()
 {
 }
 
+PrintMenu::PrintMenu(const PrintMenu & Other) : BaseAction(Other)
+{
+}
+
+PrintMenu::PrintMenu(PrintMenu && Other) : BaseAction(Other)
+{
+}
+
 PrintMenu::~PrintMenu()
 {
+}
+
+PrintMenu * PrintMenu::operator=(const PrintMenu & other)
+{
+	BaseAction::operator=(other);
+	return this;
+}
+
+PrintMenu * PrintMenu::operator=(PrintMenu && other)
+{
+	BaseAction::operator=(other);
+	return this;
 }
 
 void PrintMenu::act(Restaurant & restaurant)
@@ -297,10 +437,10 @@ void PrintMenu::act(Restaurant & restaurant)
 		std::cout << dish.getName() + " " + types[dish.getType()] + " " + std::to_string(dish.getPrice()) << std::endl;
 }
 
-//BaseAction * PrintMenu::clone() const
-//{
-//	return nullptr;
-//}
+BaseAction * PrintMenu::clone() const
+{
+	return nullptr;
+}
 
 std::string PrintMenu::toString() const
 {
@@ -308,6 +448,14 @@ std::string PrintMenu::toString() const
 }
 
 PrintTableStatus::PrintTableStatus(int id) : BaseAction(), tableId(id)
+{
+}
+
+PrintTableStatus::PrintTableStatus(const PrintTableStatus & Other) : BaseAction(Other) , tableId(Other.tableId)
+{
+}
+
+PrintTableStatus::PrintTableStatus(PrintTableStatus && Other) : BaseAction(Other), tableId(Other.tableId)
 {
 }
 
@@ -356,10 +504,10 @@ void PrintTableStatus::act(Restaurant & restaurant)
 		delete& status;
 }
 
-//BaseAction * PrintTableStatus::clone() const
-//{
-//	return nullptr;
-//}
+BaseAction * PrintTableStatus::clone() const
+{
+	return nullptr;
+}
 
 std::string PrintTableStatus::toString() const
 {
@@ -370,8 +518,28 @@ PrintActionsLog::PrintActionsLog() : BaseAction()
 {
 }
 
+PrintActionsLog::PrintActionsLog(const PrintActionsLog & Other) : BaseAction(Other)
+{
+}
+
+PrintActionsLog::PrintActionsLog(PrintActionsLog && Other) : BaseAction(Other)
+{
+}
+
 PrintActionsLog::~PrintActionsLog()
 {
+}
+
+PrintActionsLog * PrintActionsLog::operator=(const PrintActionsLog & other)
+{
+	BaseAction::operator=(other);
+	return this;
+}
+
+PrintActionsLog * PrintActionsLog::operator=(PrintActionsLog && other)
+{
+	BaseAction::operator=(other);
+	return this;
 }
 
 void PrintActionsLog::act(Restaurant & restaurant)
@@ -381,10 +549,10 @@ void PrintActionsLog::act(Restaurant & restaurant)
 		std::cout << act << std::endl; 
 }
 
-//BaseAction * PrintActionsLog::clone() const
-//{
-//	return nullptr;
-//}
+BaseAction * PrintActionsLog::clone() const
+{
+	return nullptr;
+}
 
 std::string PrintActionsLog::toString() const
 {
@@ -395,8 +563,28 @@ BackupRestaurant::BackupRestaurant() : BaseAction()
 {
 }
 
+BackupRestaurant::BackupRestaurant(const BackupRestaurant & Other) : BaseAction(Other)
+{
+}
+
+BackupRestaurant::BackupRestaurant(BackupRestaurant && Other) : BaseAction(Other)
+{
+}
+
 BackupRestaurant::~BackupRestaurant()
 {
+}
+
+BackupRestaurant * BackupRestaurant::operator=(const BackupRestaurant & other)
+{
+	BaseAction::operator=(other);
+	return this;
+}
+
+BackupRestaurant * BackupRestaurant::operator=(BackupRestaurant && other)
+{
+	BaseAction::operator=(other);
+	return this;
 }
 
 void BackupRestaurant::act(Restaurant & restaurant)
@@ -409,10 +597,10 @@ void BackupRestaurant::act(Restaurant & restaurant)
 		*backup = restaurant;
 }
 
-//BaseAction * BackupRestaurant::clone() const
-//{
-//	return nullptr;
-//}
+BaseAction * BackupRestaurant::clone() const
+{
+	return nullptr;
+}
 
 std::string BackupRestaurant::toString() const
 {
@@ -423,8 +611,28 @@ RestoreResturant::RestoreResturant() : BaseAction()
 {
 }
 
+RestoreResturant::RestoreResturant(const RestoreResturant & Other) : BaseAction(Other)
+{
+}
+
+RestoreResturant::RestoreResturant(RestoreResturant && Other) : BaseAction(Other)
+{
+}
+
 RestoreResturant::~RestoreResturant()
 {
+}
+
+RestoreResturant * RestoreResturant::operator=(const RestoreResturant & other)
+{
+	BaseAction::operator=(other);
+	return this;
+}
+
+RestoreResturant * RestoreResturant::operator=(RestoreResturant && other)
+{
+	BaseAction::operator=(other);
+	return this;
 }
 
 void RestoreResturant::act(Restaurant & restaurant)
@@ -437,10 +645,10 @@ void RestoreResturant::act(Restaurant & restaurant)
 		restaurant = *backup; // restoring 
 }
 
-//BaseAction * RestoreResturant::clone() const
-//{
-//	return nullptr;
-//}
+BaseAction * RestoreResturant::clone() const
+{
+	return nullptr;
+}
 
 std::string RestoreResturant::toString() const
 {
