@@ -20,6 +20,7 @@ Restaurant::Restaurant()
 Restaurant ::Restaurant(const string &configFilePath)
 {
     open=true;
+	ifstream ifs;
     if(! ifs.is_open())
         throw std::runtime_error("file not open");
     ifs.open(configFilePath);
@@ -28,7 +29,7 @@ Restaurant ::Restaurant(const string &configFilePath)
         if(s=="")
             continue;
         else {
-            if(s.equals("#Number of tables."){
+            if(s=="#Number of tables."){
                 while (getline(ifs, s)){
                     if(s=="")
                         continue;
@@ -41,23 +42,27 @@ Restaurant ::Restaurant(const string &configFilePath)
                     }
                 }
             }
-            else if(s.equals("#Tables")){
-                while (getline(ifs, s)){
-                    if(s=="")
-                        continue;
-                    else {
-                        vector<int> vect;
-                        stringstream ss(s);
-                        int i;
-                        while (ss >> i)
-                        {
-                            vect.push_back(i);
-                            if (ss.peek() == ',')
-                                ss.ignore();
-                        }
-                    }
-                }
-            else if(s.equals("#Menu")){
+			else if (s == "#Tables") 
+			{
+				while (getline(ifs, s))
+				{
+					if (s == "")
+						continue;
+					else
+					{
+						vector<int> vect;
+						stringstream ss(s);
+						int i;
+						while (ss >> i)
+						{
+							vect.push_back(i);
+							if (ss.peek() == ',')
+								ss.ignore();
+						}
+					}
+				}
+			}
+            else if(s=="#Menu"){
                     while (getline(ifs, s)){
                         if(s=="")
                             continue;
@@ -74,7 +79,7 @@ Restaurant ::Restaurant(const string &configFilePath)
                             int x=0;
                             num >> x;
 
-                            Dish d(i,result[0] , x , result[1]);
+                            Dish d(i ,result[0] , x , result[1]);
                             menu.push_back(d);
                             i++;
                         }

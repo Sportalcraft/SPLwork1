@@ -7,8 +7,9 @@
 
 using namespace std;
 
-Customer ::Customer(string c_name, int c_id) : name(c_name) , id(c_id) , orders()
+Customer ::Customer(string c_name, int c_id) : name(c_name) , id(c_id)
 {
+	vector<Dish> orders;
 }
 
 Customer::~Customer()
@@ -43,9 +44,9 @@ Customer * VegetarianCustomer::clone() const
 }
 vector<int> VegetarianCustomer::order(const vector <Dish> &menu)
 {
-    vector<int> output= new vector<int>;
-    Dish d1;
-    Dish d2;
+    vector<int> output;
+    Dish *d1();
+    Dish d2();
     if(menu.empty())
         return output;
     int minID= -1;
@@ -56,7 +57,7 @@ vector<int> VegetarianCustomer::order(const vector <Dish> &menu)
         if( (dish.getType()==VEG & minID== -1) | (dish.getType()==VEG & dish.getId()<minID) )
         {
             minID=dish.getId();
-            d1=dish;
+            d1= dish;
         }
         if(dish.getPrice()>=maxPriceDrink & dish.getType() != ALC & dish.getType()==BVG) {
             if(dish.getPrice()==maxPriceDrink)
@@ -103,8 +104,8 @@ Customer * CheapCustomer::clone() const
 }
 vector<int> CheapCustomer::order(const vector <Dish> &menu)
 {
-    vector<int> output= new vector<int>;
-    Dish d1;
+	vector<int> output;
+    Dish d1();
     if(menu.empty() | (! orders.empty()) )
         return output;
     int minPrice=-1;
@@ -140,8 +141,7 @@ Customer * SpicyCustomer::clone() const
 }
 vector<int> SpicyCustomer ::order(const vector <Dish> &menu)
 {
-    vector<int> output= new vector<int>;
-    Dish d1;
+	vector<int> output;
     if(menu.empty())
         return output;
     if(orders.empty())
@@ -166,7 +166,7 @@ vector<int> SpicyCustomer ::order(const vector <Dish> &menu)
     {
          int minPriceDrink=-1;
          int id_minPriceDrink=-1;
-         Dish d2;
+         Dish d2();
         for (Dish dish : menu) {
             if(dish.getType() != ALC & dish.getType()==BVG)
             {
@@ -203,8 +203,8 @@ Customer * AlchoholicCustomer::clone() const
 }
 vector<int> AlchoholicCustomer::order(const vector <Dish> &menu)
 {
-    Dish d1;
-    vector<int> output= new vector<int>;
+    Dish d1();
+	vector<int> output;
     if(menu.empty())
         return output;
     if(orders.empty())
@@ -229,14 +229,14 @@ vector<int> AlchoholicCustomer::order(const vector <Dish> &menu)
     else
         {
             const int minPrice=orders.back().c.getPrice();
-            int id_minPrice=order.back().c.getId();
+            int id_minPrice=orders.back().c.getId();
             int maxMin=-1;
             int id_maxMin= -1;
-            Dish d2;
+            Dish d2();
             for(Dish dish : menu)
             {
-                if((dish.getType()==ALC & dish.getPrice()>=minPriceAlc)) {
-                    if(dish.getPrice()>minPriceAlc)
+                if((dish.getType()==ALC & dish.getPrice()>= minPrice)) {
+                    if(dish.getPrice()>minPrice)
                     {
                         maxMin = dish.getPrice();
                         break;
@@ -256,17 +256,17 @@ vector<int> AlchoholicCustomer::order(const vector <Dish> &menu)
 
             for(Dish dish : menu)
             {
-                if(dish.getType()==ALC & dish.getPrice()=>minPrice & dish.getPrice()<=maxMin)
+                if(dish.getType()==ALC & dish.getPrice()>=minPrice & dish.getPrice()<=maxMin)
                 {
                     if(dish.getPrice()>minPrice & dish.getPrice()<maxMin)
                     {
                         maxMin=dish.getPrice();
                         id_maxMin=dish.getId();
-                        d2=dish;
+                        d2()=dish;
                     }
-                    else if(dish.getPrice()=>minPrice & dish.getPrice()<maxMin)
+					else if ((dish.getPrice() >= minPrice) & (dish.getPrice() < maxMin))
                     {
-                        if(dish.getId()>id_minPrice)
+						if (dish.getId() > id_minPrice)
                         {
                             maxMin=dish.getPrice();
                             id_maxMin=dish.getId();
