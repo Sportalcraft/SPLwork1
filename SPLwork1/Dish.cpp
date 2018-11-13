@@ -11,19 +11,19 @@ Dish::Dish(const Dish & Other) : id(Other.id), name(Other.name), price(Other.pri
 {
 }
 
-Dish::Dish(const Dish&& Other) : id(Other.id), name(Other.name), price(Other.price), type(Other.type)
+Dish::Dish(Dish&& Other) : id(Other.id), name(Other.name), price(Other.price), type(Other.type)
 {
 }
 
-Dish * Dish::operator=(const Dish & other)
-{
-	return this;
-}
+//Dish * Dish::operator=(const Dish & other)
+//{
+//	return this;
+//}
 
-Dish * Dish::operator=(const Dish&& other)
-{
-	return this;
-}
+//Dish * Dish::operator=(const Dish&& other)
+//{
+//	return this;
+//}
 
 Dish::~Dish()
 {

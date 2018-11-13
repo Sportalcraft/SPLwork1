@@ -11,9 +11,10 @@ class Dish {
 public:
 	Dish(int d_id, string d_name, int d_price, DishType d_type);
 	Dish(const Dish& Other);
-	Dish(const Dish&& Other);
-	Dish* operator=(const Dish& other);
-	Dish* operator=(const Dish&& other);
+	Dish(Dish&& Other);
+	~Dish();
+	//Dish* operator=(const Dish& other);
+	//Dish* operator=(const Dish&& other);
 	int getId() const;
 	string getName() const;
 	int getPrice() const;
