@@ -7,34 +7,35 @@
 
 using namespace std;
 
-Customer ::Customer(string c_name, int c_id)
+Customer ::Customer(string c_name, int c_id) : name(c_name) , id(c_id) , orders()
 {
-    this->name(c_name);
-    this->id(c_id);
-    vector<Dish> orders;
+}
+
+Customer::~Customer()
+{
 }
 
 string Customer ::getName() const
 {
-    return this->name;
+    return name;
 }
 
 int Customer ::getId() const
 {
-    return this->id;
+    return id;
 }
 
 
 
-VegetarianCustomer::VegetarianCustomer(string name, int id): public Customer
+VegetarianCustomer::VegetarianCustomer(string name, int id): Customer(name , id)
 {
-    this->name(c_name);
-    this->id(c_id);
-    vector<Dish> orders;
+}
+VegetarianCustomer::~VegetarianCustomer()
+{
 }
 string VegetarianCustomer::toString() const
 {
-    return getName() + " " + getId() + " - VegetarianCustomer";
+    return getName() + " " + std::to_string(getId()) + " - VegetarianCustomer";
 }
 vector<int> VegetarianCustomer::order(const vector <Dish> &menu)
 {
@@ -82,15 +83,15 @@ vector<int> VegetarianCustomer::order(const vector <Dish> &menu)
 }
 
 
-CheapCustomer::CheapCustomer(string name, int id): public Customer
+CheapCustomer::CheapCustomer(string name, int id): Customer (name, id)
 {
-    this->name(c_name);
-    this->id(c_id);
-    vector<Dish> orders;
+}
+CheapCustomer::~CheapCustomer()
+{
 }
 string CheapCustomer ::toString() const
 {
-    return getName() + " " + getId() + " - CheapCustomer";
+    return getName() + " " + std::to_string(getId()) + " - CheapCustomer";
 }
 vector<int> CheapCustomer::order(const vector <Dish> &menu)
 {
@@ -115,15 +116,15 @@ vector<int> CheapCustomer::order(const vector <Dish> &menu)
 }
 
 
-SpicyCustomer::SpicyCustomer(string name, int id): public Customer
+SpicyCustomer::SpicyCustomer(string name, int id): Customer(name, id)
 {
-    this->name(c_name);
-    this->id(c_id);
-    vector<Dish> orders;
+}
+SpicyCustomer::~SpicyCustomer()
+{
 }
 string SpicyCustomer::toString() const
 {
-    return getName() + " " + getId() + " - SpicyCustomer";
+    return getName() + " " + std::to_string(getId()) + " - SpicyCustomer";
 }
 vector<int> SpicyCustomer ::order(const vector <Dish> &menu)
 {
@@ -174,15 +175,15 @@ vector<int> SpicyCustomer ::order(const vector <Dish> &menu)
 }
 
 
-AlchoholicCustomer::AlchoholicCustomer(string name, int id):public Customer
+AlchoholicCustomer::AlchoholicCustomer(string name, int id): Customer (name, id)
 {
-    this->name(c_name);
-    this->id(c_id);
-    vector<Dish> orders;
+}
+AlchoholicCustomer::~AlchoholicCustomer()
+{
 }
 string AlchoholicCustomer::toString() const
 {
-    return getName() + " " + getId() + " - AlchoholicCustomer";
+    return getName() + " " + std::to_string(getId()) + " - AlchoholicCustomer";
 }
 vector<int> AlchoholicCustomer::order(const vector <Dish> &menu)
 {
@@ -275,10 +276,3 @@ vector<int> AlchoholicCustomer::order(const vector <Dish> &menu)
         }
 
 }
-
-
-Customer::~Customer(){}
-VegetarianCustomer::~VegetarianCustomer(){}
-CheapCustomer::~CheapCustomer(){}
-SpicyCustomer::~SpicyCustomer(){}
-AlchoholicCustomer::~AlchoholicCustomer(){}

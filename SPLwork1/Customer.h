@@ -10,6 +10,7 @@ using namespace std;
 class Customer {
 public:
 	Customer(string c_name, int c_id);
+	virtual ~Customer();
 	virtual vector<int> order(const vector<Dish> &menu) = 0;
 	virtual string toString() const = 0;
 	string getName() const;
@@ -24,6 +25,7 @@ private:
 class VegetarianCustomer : public Customer {
 public:
 	VegetarianCustomer(string name, int id);
+	virtual ~VegetarianCustomer();
 	vector<int> order(const vector<Dish> &menu);
 	string toString() const;
 private:
@@ -33,6 +35,7 @@ private:
 class CheapCustomer : public Customer {
 public:
 	CheapCustomer(string name, int id);
+	virtual ~CheapCustomer();
 	vector<int> order(const vector<Dish> &menu);
 	string toString() const;
 private:
@@ -42,6 +45,7 @@ private:
 class SpicyCustomer : public Customer {
 public:
 	SpicyCustomer(string name, int id);
+	virtual ~SpicyCustomer();
 	vector<int> order(const vector<Dish> &menu);
 	string toString() const;
 private:
@@ -51,6 +55,7 @@ private:
 class AlchoholicCustomer : public Customer {
 public:
 	AlchoholicCustomer(string name, int id);
+	virtual ~AlchoholicCustomer();
 	vector<int> order(const vector<Dish> &menu);
 	string toString() const;
 private:
