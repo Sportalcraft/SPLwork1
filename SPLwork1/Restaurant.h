@@ -12,11 +12,11 @@ class Restaurant {
 public:
 	Restaurant();
 	Restaurant(const std::string &configFilePath);
-	Restaurant(const Restaurant& restaurant);
-	Restaurant(Restaurant&& restaurant);
-	Restaurant* operator=(const Restaurant& restaurant);
-	Restaurant* operator=(Restaurant&& restaurant);
+	Restaurant(const Restaurant& Other);
+	Restaurant(Restaurant&& Other);
 	~Restaurant();
+	Restaurant& operator=(const Restaurant& Other);
+	Restaurant& operator=(Restaurant&& Other);
 	void start();
 	int getNumOfTables() const;
 	Table* getTable(int ind);
@@ -28,6 +28,10 @@ private:
 	std::vector<Table*> tables;
 	std::vector<Dish> menu;
 	std::vector<BaseAction*> actionsLog;
+
+	void copy(const Restaurant & Other);
+	void move(Restaurant&& Other);
+	void clear();
 };
 
 #endif
