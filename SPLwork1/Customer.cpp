@@ -11,7 +11,7 @@ Customer ::Customer(string c_name, int c_id)
 {
     this->name(c_name);
     this->id(c_id);
-    orders= new vector<Dish>;
+    vector<Dish> orders;
 }
 
 string Customer ::getName() const
@@ -30,7 +30,7 @@ VegetarianCustomer::VegetarianCustomer(string name, int id): public Customer
 {
     this->name(c_name);
     this->id(c_id);
-    orders= new vector<Dish>;
+    vector<Dish> orders;
 }
 string VegetarianCustomer::toString() const
 {
@@ -86,7 +86,7 @@ CheapCustomer::CheapCustomer(string name, int id): public Customer
 {
     this->name(c_name);
     this->id(c_id);
-    orders= new vector<Dish>;
+    vector<Dish> orders;
 }
 string CheapCustomer ::toString() const
 {
@@ -119,7 +119,7 @@ SpicyCustomer::SpicyCustomer(string name, int id): public Customer
 {
     this->name(c_name);
     this->id(c_id);
-    orders= new vector<Dish>;
+    vector<Dish> orders;
 }
 string SpicyCustomer::toString() const
 {
@@ -178,7 +178,7 @@ AlchoholicCustomer::AlchoholicCustomer(string name, int id):public Customer
 {
     this->name(c_name);
     this->id(c_id);
-    orders= new vector<Dish>;
+    vector<Dish> orders;
 }
 string AlchoholicCustomer::toString() const
 {
@@ -277,6 +277,8 @@ vector<int> AlchoholicCustomer::order(const vector <Dish> &menu)
 }
 
 
-Customer::~Customer()
-{
-}
+Customer::~Customer(){}
+VegetarianCustomer::~VegetarianCustomer(){}
+CheapCustomer::~CheapCustomer(){}
+SpicyCustomer::~SpicyCustomer(){}
+AlchoholicCustomer::~AlchoholicCustomer(){}
