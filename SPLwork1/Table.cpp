@@ -196,7 +196,7 @@ void Table::move(Table && Other)
 	capacity = Other.capacity;
 	open = Other.open;
 	
-	//move order
+	//move orders
 	for each (OrderPair pair in Other.orderList)
 		orderList.push_back(OrderPair(pair.first, pair.second)); // banana ?
 
