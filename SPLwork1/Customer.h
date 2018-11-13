@@ -16,10 +16,11 @@ public:
 	virtual Customer* clone() const = 0;
 	string getName() const;
 	int getId() const;
+protected:
+	vector<Dish> orders;
 private:
 	const string name;
 	const int id;
-	vector<Dish> orders;
 };
 
 
