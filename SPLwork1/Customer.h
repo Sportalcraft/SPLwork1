@@ -13,6 +13,7 @@ public:
 	virtual ~Customer();
 	virtual vector<int> order(const vector<Dish> &menu) = 0;
 	virtual string toString() const = 0;
+	virtual Customer* clone() const = 0;
 	string getName() const;
 	int getId() const;
 private:
@@ -28,6 +29,7 @@ public:
 	virtual ~VegetarianCustomer();
 	vector<int> order(const vector<Dish> &menu);
 	string toString() const;
+	virtual Customer* clone() const;
 private:
 };
 
@@ -38,6 +40,7 @@ public:
 	virtual ~CheapCustomer();
 	vector<int> order(const vector<Dish> &menu);
 	string toString() const;
+	virtual Customer* clone() const;
 private:
 };
 
@@ -48,6 +51,7 @@ public:
 	virtual ~SpicyCustomer();
 	vector<int> order(const vector<Dish> &menu);
 	string toString() const;
+	virtual Customer* clone() const;
 private:
 };
 
@@ -58,6 +62,7 @@ public:
 	virtual ~AlchoholicCustomer();
 	vector<int> order(const vector<Dish> &menu);
 	string toString() const;
+	virtual Customer* clone() const;
 private:
 };
 

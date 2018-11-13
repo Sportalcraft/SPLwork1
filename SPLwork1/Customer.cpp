@@ -37,6 +37,10 @@ string VegetarianCustomer::toString() const
 {
     return getName() + " " + std::to_string(getId()) + " - VegetarianCustomer";
 }
+Customer * VegetarianCustomer::clone() const
+{
+	return new VegetarianCustomer(*this);
+}
 vector<int> VegetarianCustomer::order(const vector <Dish> &menu)
 {
     vector<int> output= new vector<int>;
@@ -93,6 +97,10 @@ string CheapCustomer ::toString() const
 {
     return getName() + " " + std::to_string(getId()) + " - CheapCustomer";
 }
+Customer * CheapCustomer::clone() const
+{
+	return new CheapCustomer(*this);
+}
 vector<int> CheapCustomer::order(const vector <Dish> &menu)
 {
     vector<int> output= new vector<int>;
@@ -125,6 +133,10 @@ SpicyCustomer::~SpicyCustomer()
 string SpicyCustomer::toString() const
 {
     return getName() + " " + std::to_string(getId()) + " - SpicyCustomer";
+}
+Customer * SpicyCustomer::clone() const
+{
+	return new SpicyCustomer(*this);
 }
 vector<int> SpicyCustomer ::order(const vector <Dish> &menu)
 {
@@ -184,6 +196,10 @@ AlchoholicCustomer::~AlchoholicCustomer()
 string AlchoholicCustomer::toString() const
 {
     return getName() + " " + std::to_string(getId()) + " - AlchoholicCustomer";
+}
+Customer * AlchoholicCustomer::clone() const
+{
+	return new AlchoholicCustomer(*this);
 }
 vector<int> AlchoholicCustomer::order(const vector <Dish> &menu)
 {
