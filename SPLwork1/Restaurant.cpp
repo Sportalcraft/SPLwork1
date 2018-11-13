@@ -1,59 +1,120 @@
 #include "Restaurant.h"
+#include "vector"
+#include "iostream"
+#include "fstream"
+#include "string"
+#include <stdexcept>
+#include <sstream>
 
+using namespace std;
 
 
 Restaurant::Restaurant()
 {
+    open=true;
+    vector<Table*> tables;
+    vector<Dish> menu;
+    vector<BaseAction*> actionsLog;
 }
 
-Restaurant::Restaurant(const std::string & configFilePath)
+Restaurant ::Restaurant(const string &configFilePath)
 {
-}
+    open=true;
+    if(! ifs.is_open())
+        throw std::runtime_error("file not open");
+    ifs.open(configFilePath);
+    string s;
+    while (getline(ifs, s)){
+        if(s=="")
+            continue;
+        else {
+            if(s.equals("#Number of tables."){
+                while (getline(ifs, s)){
+                    if(s=="")
+                        continue;
+                    else {
+                        stringstream num(s);
+                        int x=0;
+                        num >> x;
+                        vector < Table * > tables(x);
+                        break;
+                    }
+                }
+            }
+            else if(s.equals("#Tables")){
+                while (getline(ifs, s)){
+                    if(s=="")
+                        continue;
+                    else {
+                        vector<int> vect;
+                        stringstream ss(s);
+                        int i;
+                        while (ss >> i)
+                        {
+                            vect.push_back(i);
+                            if (ss.peek() == ',')
+                                ss.ignore();
+                        }
+                    }
+                }
+            else if(s.equals("#Menu")){
+                    while (getline(ifs, s)){
+                        if(s=="")
+                            continue;
+                        else {
+                            vector<string> result;
+                            int i=0;
+                            while( s.good() )
+                            {
+                                string substr;
+                                getline( s, substr, ',' );
+                                result.push_back( substr );
+                            }
+                            stringstream num(result[2]);
+                            int x=0;
+                            num >> x;
 
-Restaurant::Restaurant(const Restaurant & restaurant)
+                            Dish d(i,result[0] , x , result[1]);
+                            menu.push_back(d);
+                            i++;
+                        }
+            }
+        }
+    }
+}
+const vector<BaseAction *> & Restaurant::getActionsLog() const
 {
+    return actionsLog;
 }
-
-Restaurant * Restaurant::operator=(const Restaurant & restaurant)
+vector<Dish> & Restaurant ::getMenu()
 {
-	return nullptr;
+    return menu;
 }
-
-Restaurant * Restaurant::operator=(Restaurant && restaurant)
-{
-	return nullptr;
-}
-
-Restaurant::Restaurant(Restaurant && restaurant)
-{
-}
-
-Restaurant::~Restaurant()
-{
-}
-
-void Restaurant::start()
-{
-}
-
 int Restaurant::getNumOfTables() const
 {
-	return 0;
+    return tables.size();
 }
-
-Table * Restaurant::getTable(int ind)
+Table* Restaurant::getTable(int ind)
 {
-	return tables[ind]; // no cloning
+    return tables[ind];
 }
-
-const std::vector<BaseAction*>& Restaurant::getActionsLog() const
+void Restaurant::start()
 {
-	// TODO: insert return statement here
-	return actionsLog;
+    cout<<"Restaurant is now open!"<<endl;
+
 }
-
-std::vector<Dish>& Restaurant::getMenu()
+Restaurant::~Restaurant()
 {
-	// TODO: insert return statement here
-	return menu;
+    for(int i=0; i< tables.size; i++)
+    {
+        delete tables[i];
+    }
+    delete tables;
+
+    for(int i=0; i< actionsLog.size; i++)
+    {
+        delete actionsLog[i];
+    }
+    delete actionsLog;
+
 }
