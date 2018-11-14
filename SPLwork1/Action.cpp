@@ -119,7 +119,7 @@ OpenTable::~OpenTable()
 {
 	//delete customers
 	for each (Customer* cus in customers)
-		delete& cus; 
+		delete cus; 
 }
 
 void OpenTable::act(Restaurant & restaurant)
@@ -146,7 +146,7 @@ void OpenTable::act(Restaurant & restaurant)
 	}
 
 	//if (table != nullptr)
-	//	delete& table; // delete the table at the end
+	//	delete table; // delete the table at the end
 }
 
 BaseAction * OpenTable::clone() const
@@ -226,7 +226,7 @@ void Order::act(Restaurant & restaurant)
 	}
 		
 	//if(table != nullptr)
-	//	delete& table; // delete the table at the end
+	//	delete table; // delete the table at the end
 }
 
 BaseAction * Order::clone() const
@@ -292,13 +292,13 @@ void MoveCustomer::act(Restaurant & restaurant)
 	}
 
 	//if (sorce != nullptr)
-	//	delete& sorce;
+	//	delete sorce;
 
 	//if (destenation != nullptr)
-	//	delete& destenation;
+	//	delete destenation;
 
 	if (customer != nullptr)
-		delete& customer;
+		delete customer;
 }
 
 BaseAction * MoveCustomer::clone() const
@@ -354,7 +354,7 @@ void Close::act(Restaurant & restaurant)
 	} 
 
 	//if(table != nullptr)
-	//	delete& table; // delete the table at the end
+	//	delete table; // delete the table at the end
 }
 
 Close::~Close()
@@ -524,10 +524,10 @@ void PrintTableStatus::act(Restaurant & restaurant)
 	catch (const std::exception&) {}
 
 	//if (table != nullptr)
-	//	delete& table;
+	//	delete table;
 
 	if (status != nullptr)
-		delete& status;
+		delete status;
 }
 
 BaseAction * PrintTableStatus::clone() const

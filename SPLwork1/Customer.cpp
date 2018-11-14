@@ -4,7 +4,6 @@
 #include "iostream"
 #include "string"
 #include "Dish.h"
-#include <algorithm> // ask in forun of ligal
 
 using namespace std;
 
@@ -115,7 +114,6 @@ Customer * CheapCustomer::clone() const
 vector<int> CheapCustomer::order(const vector <Dish> &menu)
 {
     vector<int> output;
-    int cheapestPos = 0;
 	const Dish* cheapest;
 
 	// no menu or alraedy ordered
@@ -256,18 +254,36 @@ vector<int> AlchoholicCustomer::order(const vector <Dish> &menu)
 
 void AlchoholicCustomer::sortOrders(const vector<Dish>& menu)
 {
+	vector<Dish*> tempVector;
+	Dish* temp;
+	
 	sorted = true; // now being sorted
 
 	for each (Dish dish in menu)
 		if (dish.getType() == ALC) // alcholic beverage was found
-			orders.push_back(dish);
+			tempVector.push_back(&dish);
 
-	// now orders contains only alcoholic beverage, but not sorted
-	//sorting
-	sort(orders.begin(), orders.end(), wayToSort); // check in forun if ligal
+	// now temp contains only alcoholic beverage, but not sorted
+	
+	//sorting - bubble sort
+	for(int numOfbubbles = 0; numOfbubbles < tempVector.size(); numOfbubbles++)
+		for (int bubble = numOfbubbles + 1; bubble < tempVector.size(); bubble++)
+			if (wayToSort(*tempVector[bubble - 1], *tempVector[bubble])) // orders[bubble -1] > orders[bubble])
+			{
+				temp = tempVector[bubble - 1];
+				tempVector[bubble - 1] = tempVector[bubble];
+				tempVector[bubble] = temp;
+			}
+
+	//push in sorted order to orders
+	orders.clear();
+	for each (Dish* dish in tempVector)
+		orders.push_back(Dish(*dish)); // adding a copy of it
+
+	// now orders is sorted
 }
 
-bool AlchoholicCustomer::wayToSort(Dish d1, Dish d2) const
+bool AlchoholicCustomer::wayToSort(Dish& d1, Dish& d2) const
 {
 	return d1.getPrice() > d2.getPrice() | (d1.getPrice() == d2.getPrice() & d1.getId() > d2.getId());
 }

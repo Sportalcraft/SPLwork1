@@ -7,7 +7,7 @@ Table::~Table()
 {
 	//delete customers
 	for each (Customer* cus in customersList)
-		delete& cus;
+		delete cus;
 }
 
 Table::Table(int t_capacity)
@@ -75,7 +75,7 @@ void Table::removeCustomer(int id)
 		if (cus->getId() == id) // the positin of dessired customer was found
 		{
 			// the customer was found, need to delete it
-			delete& cus; // delete the custoner object
+			delete cus; // delete the custoner object
 			customersList.erase(customersList.begin() + pos); //remove pointer reom vector
 		}
 
@@ -215,7 +215,7 @@ void Table::clear()
 
 	//removing instances of customers
 	for each (Customer*  cus in customersList)
-		delete& cus;
+		delete cus;
 
 	customersList.clear();
 }
