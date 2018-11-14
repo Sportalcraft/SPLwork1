@@ -115,18 +115,27 @@ const vector<BaseAction *>& Restaurant::getActionsLog() const
 {
     return actionsLog;
 }
+Restaurant::Restaurant(const Restaurant & Other)
+{
+	copy(Other);
+}
+Restaurant::Restaurant(Restaurant && Other)
+{
+	move(std::move(Other));
+}
 vector<Dish> & Restaurant ::getMenu()
 {
     return menu;
 }
 int Restaurant::getNumOfTables() const
 {
-    return tables.size();
+   return static_cast<int>(tables.size());
 }
 Table* Restaurant::getTable(int ind)
 {
     return tables[ind];
 }
+
 void Restaurant::start()
 {
     cout<<"Restaurant is now open!"<<endl;
@@ -134,16 +143,86 @@ void Restaurant::start()
 }
 Restaurant::~Restaurant()
 {
-	/*for_each(tables.begin(), tables.end(), [](Table* p) { delete p; })*/
+	clear();
+}
+Restaurant & Restaurant::operator=(const Restaurant & Other)
+{
+	if (this != &Other)
+	{
+		clear(); // delete all data
+		copy(Other); // get new data
+	}
 
+	return *this;
+}
+Restaurant & Restaurant::operator=(Restaurant && Other)
+{
+	if (this != &Other)
+	{
+		clear(); // delete all data
+		move(std::move(Other)); // get new data		
+	}
+
+	return *this;
+}
+
+void Restaurant::copy(const Restaurant & Other)
+{
+	open = Other.open;
+
+	//copy tables
+	for each (Table* table in Other.tables)
+		tables.push_back(new Table(*table));
+
+	//copy manu
+	menu.clear();
+	for each (Dish dish in Other.menu)
+		menu.push_back(dish);
+
+	//copy action log
+	for each (BaseAction* action in Other.actionsLog)
+		actionsLog.push_back(action->clone());
+}
+
+void Restaurant::move(Restaurant && Other)
+{
+	open = Other.open;
+
+	//move tables
+	for each (Table* table in Other.tables)
+		tables.push_back(table);
+
+	//move menu
+	menu.clear();
+	for each (Dish dish in Other.menu)
+		menu.push_back(dish);
+
+	//move action log
+	for each (BaseAction* action in Other.actionsLog)
+		actionsLog.push_back(action);
+
+	//Delete old
+	Other.open = false;
+	Other.tables.clear();
+	Other.menu.clear();
+	Other.actionsLog.clear();
+}
+
+void Restaurant::clear()
+{
+	open = false;
+
+	//clear tables
 	for each (Table* table in tables)
-	{
-		delete& table;
-	}
+		delete table;
+	tables.clear();
 
-	//for_each(actionsLog.begin(), actionsLog.end(), [](BaseAction* p) { delete p; });
+	//clear manu
+	menu.clear();
+
+	//clear action log
+
 	for each (BaseAction* action in actionsLog)
-	{
-		delete& action;
-	}
-};
+		delete action;
+	actionsLog.clear();
+}

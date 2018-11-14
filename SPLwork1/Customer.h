@@ -86,6 +86,7 @@ public:
 	virtual Customer* clone() const;
 private:
 	bool sorted;
+	int next2Order;
 
 	void sortOrders(const vector<Dish> &menu);
 	bool wayToSort(Dish& d1, Dish& d2) const;

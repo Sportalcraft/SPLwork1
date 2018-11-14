@@ -34,8 +34,6 @@ int Customer ::getId() const
     return id;
 }
 
-
-
 VegetarianCustomer::VegetarianCustomer(string name, int id): Customer(name , id)
 {
 }
@@ -59,8 +57,8 @@ Customer * VegetarianCustomer::clone() const
 vector<int> VegetarianCustomer::order(const vector <Dish> &menu)
 {
     vector<int> output;
-	const Dish* smallestID;
-	const  Dish* mostExpenciveBVG;
+	const Dish* smallestID = nullptr;
+	const  Dish* mostExpenciveBVG = nullptr;
 
 	if (menu.empty())
 		return output; // nothing in the menu - nothing to order
@@ -69,16 +67,16 @@ vector<int> VegetarianCustomer::order(const vector <Dish> &menu)
 	{
 		//find samllest id vegeterian dish		
 		// a vegeterian dish with smallerID was fpund, or the first vegeterian dish to be found
-		if (dish.getType() == VEG & (smallestID == nullptr || dish.getId() < smallestID->getId()))
+		if ((dish.getType() == VEG) & ((smallestID == nullptr) || (dish.getId() < smallestID->getId())))
 			smallestID = &dish;
 
 		//find the most expensive non-alcoholic beverage  
 		//   dish is beverage    &  (the first one to be found   ||          a more expensive dish was found       |       a dish with the same price was found,            but it's id is smalller
-		if (dish.getType() == BVG & (mostExpenciveBVG == nullptr || dish.getPrice() > mostExpenciveBVG->getPrice() | (dish.getPrice() == mostExpenciveBVG->getPrice() & dish.getId() < mostExpenciveBVG->getId())))
+		if ((dish.getType() == BVG) & ((mostExpenciveBVG == nullptr) || (dish.getPrice() > mostExpenciveBVG->getPrice()) | ((dish.getPrice() == mostExpenciveBVG->getPrice()) & (dish.getId() < mostExpenciveBVG->getId()))))
 			mostExpenciveBVG = &dish;
 	}
    
-    if(smallestID == nullptr | mostExpenciveBVG == nullptr)
+    if((smallestID == nullptr) | (mostExpenciveBVG == nullptr))
         return output; // cant complete the order
 
     output.push_back(smallestID->getId());
@@ -125,7 +123,7 @@ vector<int> CheapCustomer::order(const vector <Dish> &menu)
     for(Dish dish : menu)
     {
 		//         cheaper dish was found          |                 same price - the lowest id caunt
-		if (dish.getPrice() < cheapest->getPrice() | (dish.getPrice() == cheapest->getPrice() & dish.getId() < cheapest->getId()))
+		if ((dish.getPrice() < cheapest->getPrice()) | ((dish.getPrice() == cheapest->getPrice()) & (dish.getId() < cheapest->getId())))
 			cheapest = &dish;
     }
 
@@ -159,8 +157,8 @@ Customer * SpicyCustomer::clone() const
 vector<int> SpicyCustomer ::order(const vector <Dish> &menu)
 {
     vector<int> output;
-    const Dish* MostExpemciveSPC;
-	const Dish* cheapestBVG;
+    const Dish* MostExpemciveSPC = nullptr;
+	const Dish* cheapestBVG = nullptr;
 
     if(menu.empty())
         return output; // no menu - no order
@@ -174,7 +172,7 @@ vector<int> SpicyCustomer ::order(const vector <Dish> &menu)
 			for (Dish dish : menu)
 			{
 				//     dish is spicy      &  (the first one to be found  ||          a more expensive dish was found       |       a dish with the same price was foound,            but it's id is smalller
-				if (dish.getType() == SPC & (MostExpemciveSPC == nullptr || dish.getPrice() > MostExpemciveSPC->getPrice() | (dish.getPrice() == MostExpemciveSPC->getPrice() & dish.getId() < MostExpemciveSPC->getId())))
+				if ((dish.getType() == SPC) & ((MostExpemciveSPC == nullptr) || (dish.getPrice() > MostExpemciveSPC->getPrice()) | ((dish.getPrice() == MostExpemciveSPC->getPrice()) & (dish.getId() < MostExpemciveSPC->getId()))))
 					MostExpemciveSPC = &dish;
 			}
         }
@@ -195,7 +193,7 @@ vector<int> SpicyCustomer ::order(const vector <Dish> &menu)
 			for (Dish dish : menu)
 			{
 				//   dish is beverage     &  (the first one to be found  ||          a cheaper dish was found    |       a dish with the same price was found,            but it's id is smalller
-				if (dish.getType() == BVG & (cheapestBVG == nullptr || dish.getPrice() < cheapestBVG->getPrice() | (dish.getPrice() == cheapestBVG->getPrice() & dish.getId() < cheapestBVG->getId())))
+				if ((dish.getType() == BVG) & ((cheapestBVG == nullptr) || (dish.getPrice() < cheapestBVG->getPrice()) | ((dish.getPrice() == cheapestBVG->getPrice()) & (dish.getId() < cheapestBVG->getId()))))
 					cheapestBVG = &dish;
 			}
 		}
@@ -205,18 +203,19 @@ vector<int> SpicyCustomer ::order(const vector <Dish> &menu)
 
 		output.push_back(cheapestBVG->getId());
 		orders.push_back(*cheapestBVG);
+		
 		return output;
     }
 }
 
 
-AlchoholicCustomer::AlchoholicCustomer(string name, int id): Customer (name, id), sorted(false)
+AlchoholicCustomer::AlchoholicCustomer(string name, int id): Customer (name, id), sorted(false), next2Order(0)
 {
 }
-AlchoholicCustomer::AlchoholicCustomer(const AlchoholicCustomer & Other) : Customer(Other) , sorted(false)
+AlchoholicCustomer::AlchoholicCustomer(const AlchoholicCustomer & Other) : Customer(Other) , sorted(false), next2Order(0)
 {
 }
-AlchoholicCustomer::AlchoholicCustomer(AlchoholicCustomer && Other) : Customer(Other), sorted(false)
+AlchoholicCustomer::AlchoholicCustomer(AlchoholicCustomer && Other) : Customer(Other), sorted(false), next2Order(0)
 {
 }
 AlchoholicCustomer::~AlchoholicCustomer()
@@ -243,12 +242,12 @@ vector<int> AlchoholicCustomer::order(const vector <Dish> &menu)
 
 	//already sorterd
 
-	if (!orders.empty()) // there are beverages that was not ordered yet
+	if (next2Order < orders.size()) // there are beverages that was not ordered yet
 	{
-		output.push_back(orders[0].getId());
-		orders.erase(orders.begin()); // remove the beverage that was ordered
+		output.push_back(orders[next2Order].getId());
+		next2Order++; // "remove" the beverage that was ordered - next time it will not be ordered
 	}
-
+	
 	return output;
 }
 
@@ -279,11 +278,11 @@ void AlchoholicCustomer::sortOrders(const vector<Dish>& menu)
 	orders.clear();
 	for each (Dish* dish in tempVector)
 		orders.push_back(Dish(*dish)); // adding a copy of it
-
+		
 	// now orders is sorted
 }
 
 bool AlchoholicCustomer::wayToSort(Dish& d1, Dish& d2) const
 {
-	return d1.getPrice() > d2.getPrice() | (d1.getPrice() == d2.getPrice() & d1.getId() > d2.getId());
+	return (d1.getPrice() > d2.getPrice()) | ((d1.getPrice() == d2.getPrice()) & (d1.getId() > d2.getId()));
 }

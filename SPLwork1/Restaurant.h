@@ -12,7 +12,6 @@ class Restaurant {
 public:
 	Restaurant();
 	Restaurant(const std::string &configFilePath);
-	const vector<BaseAction*>& getActionsLog() const;
 	Restaurant(const Restaurant& Other);
 	Restaurant(Restaurant&& Other);
 	~Restaurant();
@@ -21,7 +20,7 @@ public:
 	void start();
 	int getNumOfTables() const;
 	Table* getTable(int ind);
-	const vector<BaseAction*>& getActionsLog();
+	const vector<BaseAction*>& getActionsLog() const;
 	//const vector<BaseAction*>& getActionsLog() const;
 	// Return a reference to the history of actions
 	std::vector<Dish>& getMenu();
