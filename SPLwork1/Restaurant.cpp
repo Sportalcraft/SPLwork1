@@ -89,7 +89,7 @@ Restaurant::Restaurant(const string &configFilePath)
 						int x2 = 0;
 						num2 >> x2;
 
-						Dish d(i, result[0], x1, x2);
+						Dish d(i, result[0], x1, result[1]);
 						menu.push_back(d);
 						i++;
 					}
