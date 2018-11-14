@@ -8,8 +8,9 @@
 
 using namespace std;
 
-Customer ::Customer(string c_name, int c_id) : name(c_name) , id(c_id) , orders()
+Customer ::Customer(string c_name, int c_id) : name(c_name) , id(c_id)
 {
+	vector<Dish> orders;
 }
 
 Customer::Customer(const Customer & Other) : Customer(Other.getName(), Other.getId())
