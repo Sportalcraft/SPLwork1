@@ -20,6 +20,7 @@ Restaurant::Restaurant()
 Restaurant ::Restaurant(const string &configFilePath)
 {
     open=true;
+
 	ifstream ifs;
     if(! ifs.is_open())
         throw std::runtime_error("file not open");
@@ -69,17 +70,21 @@ Restaurant ::Restaurant(const string &configFilePath)
                         else {
                             vector<string> result;
                             int i=0;
-                            while( s.good() )
+							ifs >> s;
+                            while( ifs.good() )
                             {
                                 string substr;
-                                getline( s, substr, ',' );
+                                getline( ifs, substr, ',' );
                                 result.push_back( substr );
                             }
-                            stringstream num(result[2]);
-                            int x=0;
-                            num >> x;
+                            stringstream num1(result[2]);
+                            int x1=0;
+                            num1 >> x1;
+							stringstream num2(result[1]);
+							int x2 = 0;
+							num2 >> x2;
 
-                            Dish d(i ,result[0] , x , result[1]);
+                            Dish d(i ,result[0] , x1 , x2);
                             menu.push_back(d);
                             i++;
                         }
@@ -110,16 +115,16 @@ void Restaurant::start()
 }
 Restaurant::~Restaurant()
 {
-    for(int i=0; i< tables.size; i++)
-    {
-        delete tables[i];
-    }
-    delete tables;
+	/*for_each(tables.begin(), tables.end(), [](Table* p) { delete p; })*/
 
-    for(int i=0; i< actionsLog.size; i++)
-    {
-        delete actionsLog[i];
-    }
-    delete actionsLog;
+	for each (Table* table in tables)
+	{
+		delete& table
+	}
 
-}
+	//for_each(actionsLog.begin(), actionsLog.end(), [](BaseAction* p) { delete p; });
+	for each (BaseAction* action in actionsLog)
+	{
+		delete& action;
+	}
+};
