@@ -85,12 +85,25 @@ Restaurant::Restaurant(const string &configFilePath)
 						stringstream num1(result[2]);
 						int x1 = 0;
 						num1 >> x1;
-						stringstream num2(result[1]);
-						int x2 = 0;
-						num2 >> x2;
-
-						Dish d(i, result[0], x1, result[1]);
-						menu.push_back(d);
+						if(result[1]=="VEG"){
+							Dish d(i, result[0], x1, DishType(VEG));
+							menu.push_back(d);
+						}
+							
+						else if(result[1]=="SPC"){
+							Dish d(i, result[0], x1, DishType(SPC));
+							menu.push_back(d);
+						}
+							
+						else if(result[1] == "BVG"){
+							Dish d(i, result[0], x1, DishType(BVG));
+							menu.push_back(d);
+						}
+							
+						else{ 
+							Dish d(i, result[0], x1, DishType(ALC)); 
+							menu.push_back(d);
+						}				
 						i++;
 					}
 				}
