@@ -92,7 +92,7 @@ Restaurant ::Restaurant(const string &configFilePath)
         }
     }
 }
-const vector<BaseAction *> & Restaurant::getActionsLog() const
+const vector<BaseAction *>& Restaurant::getActionsLog() const
 {
     return actionsLog;
 }
