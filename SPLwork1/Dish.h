@@ -14,7 +14,7 @@ public:
 	Dish(Dish&& Other);
 	~Dish();
 	//Dish* operator=(const Dish& other);
-	//Dish* operator=(const Dish&& other);
+	//Dish* operator=(Dish&& other);
 	int getId() const;
 	string getName() const;
 	int getPrice() const;

@@ -80,6 +80,11 @@ std::string BaseAction::getErrorToString() const
 	return std::string(); 
 }
 
+std::string BaseAction::getPrmetersString() const
+{
+	return std::string();
+}
+
 void BaseAction::copy(const BaseAction & Other)
 {
 	errorMsg = Other.errorMsg;
@@ -151,12 +156,18 @@ BaseAction * OpenTable::clone() const
 
 std::string OpenTable::toString() const
 {
-	std::string customersString = "";
+	return "open " + getPrmetersString() + getErrorToString();
+}
 
-	for each (Customer* cus in customers)
-		customersString += cus->toString() + " ";
+std::string OpenTable::getPrmetersString() const
+{
+	std::string types[4] = { "VEG", "SPC", "BVG", "ALC" };
 	
-	return "open " + std::to_string(tableId) + " " + customersString + getErrorToString(); 
+	string s = BaseAction::getPrmetersString() + std::to_string(tableId) + " ";
+	for each (Customer* cus in customers)
+		s += cus->toString();
+
+	return s;
 }
 
 void OpenTable::copy(const OpenTable & Other)
@@ -225,7 +236,12 @@ BaseAction * Order::clone() const
 
 std::string Order::toString() const
 {
-	return "order " + getErrorToString();
+	return "order " + getPrmetersString() + " " + getErrorToString();
+}
+
+std::string Order::getPrmetersString() const
+{
+	return BaseAction::getPrmetersString() + std::to_string(tableId);
 }
 
 MoveCustomer::MoveCustomer(int src, int dst, int customerId) :BaseAction(), srcTable(src), dstTable(dst), id(customerId)
@@ -292,7 +308,12 @@ BaseAction * MoveCustomer::clone() const
 
 std::string MoveCustomer::toString() const
 {
-	return "Move " + std::to_string(srcTable) + " " + std::to_string(dstTable) + " " + std::to_string(id) + " " + getErrorToString(); 
+	return "Move " + getPrmetersString() + " " + getErrorToString();
+}
+
+std::string MoveCustomer::getPrmetersString() const
+{
+	return BaseAction::getPrmetersString() + std::to_string(srcTable) + std::to_string(dstTable) + std::to_string(id);
 }
 
 Close::Close(int id) :BaseAction(), tableId(id)
@@ -347,7 +368,12 @@ BaseAction * Close::clone() const
 
 std::string Close::toString() const
 {
-	return "close " + std::to_string(tableId) + " " + getErrorToString();
+	return "close " + getPrmetersString() + " " + getErrorToString();
+}
+
+std::string Close::getPrmetersString() const
+{
+	return BaseAction::getPrmetersString() + std::to_string(tableId);
 }
 
 CloseAll::CloseAll() : BaseAction()
@@ -511,7 +537,12 @@ BaseAction * PrintTableStatus::clone() const
 
 std::string PrintTableStatus::toString() const
 {
-	return "status " + std::to_string(tableId) + " " + getErrorToString();
+	return "status " + getPrmetersString() + " " + getErrorToString();
+}
+
+std::string PrintTableStatus::getPrmetersString() const
+{
+	return BaseAction::getPrmetersString() + std::to_string(tableId);
 }
 
 PrintActionsLog::PrintActionsLog() : BaseAction()

@@ -29,9 +29,11 @@ protected:
 	void error(std::string errorMsg);
 	std::string getErrorMsg() const;
 	std::string getErrorToString() const;
+	virtual std::string getPrmetersString() const;
 private:
 	std::string errorMsg;
 	ActionStatus status;
+
 	void copy(const BaseAction & Other);
 	void move(BaseAction&& Other);
 	void clear();
@@ -49,6 +51,8 @@ public:
 	void act(Restaurant &restaurant);
 	BaseAction* clone() const;
 	std::string toString() const;
+protected :
+	virtual std::string getPrmetersString() const;
 private:
 	const int tableId;
 	std::vector<Customer *> customers;
@@ -69,6 +73,8 @@ public:
 	void act(Restaurant &restaurant);
 	BaseAction* clone() const;
 	std::string toString() const;
+protected:
+	virtual std::string getPrmetersString() const;
 private:
 	const int tableId;
 };
@@ -85,6 +91,8 @@ public:
 	void act(Restaurant &restaurant);
 	BaseAction* clone() const;
 	std::string toString() const;
+protected:
+	virtual std::string getPrmetersString() const;
 private:
 	const int srcTable;
 	const int dstTable;
@@ -103,6 +111,8 @@ public:
 	void act(Restaurant &restaurant);
 	BaseAction* clone() const;
 	std::string toString() const;
+protected:
+	virtual std::string getPrmetersString() const;
 private:
 	const int tableId;
 };
@@ -149,6 +159,8 @@ public:
 	void act(Restaurant &restaurant);
 	BaseAction* clone() const;
 	std::string toString() const;
+protected:
+	virtual std::string getPrmetersString() const;
 private:
 	const int tableId;
 };
