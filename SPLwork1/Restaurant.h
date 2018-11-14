@@ -12,6 +12,7 @@ class Restaurant {
 public:
 	Restaurant();
 	Restaurant(const std::string &configFilePath);
+	const vector<BaseAction*>& getActionsLog() const;
 	Restaurant(const Restaurant& Other);
 	Restaurant(Restaurant&& Other);
 	~Restaurant();
