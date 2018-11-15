@@ -24,6 +24,7 @@ public:
 	const vector<BaseAction*>& getActionsLog() const; // Return a reference to the history of actions	
 	std::vector<Dish>& getMenu();
 	void RemoveFutereCustomerIDs(int amount);
+	void close();
 
 private:
 	bool open;

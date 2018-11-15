@@ -417,6 +417,7 @@ void CloseAll::act(Restaurant & restaurant)
 		closeAc.act(restaurant);
 	}
 
+	restaurant.close();
 	complete();
 }
 

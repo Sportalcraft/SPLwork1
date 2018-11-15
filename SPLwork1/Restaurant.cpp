@@ -134,6 +134,10 @@ void Restaurant::RemoveFutereCustomerIDs(int amount)
 {
 	factory.removeCustomerIDs(amount);
 }
+void Restaurant::close()
+{
+	open = false;
+}
 int Restaurant::getNumOfTables() const
 {
    return static_cast<int>(tables.size());
@@ -147,19 +151,15 @@ void Restaurant::start()
 {
 	string command;
 	BaseAction* ac2Perform;
-	bool resIsOpen = open;
 	
 	cout<<"Restaurant is now open!"<<endl;
 
-	while (resIsOpen) // change here later
+	while (open) // restorunt still open
 	{
 		std::cin >> command;
 		ac2Perform = factory.getAction(command);
 		actionsLog.push_back(ac2Perform);
 		ac2Perform->act(*this);
-
-		if (dynamic_cast<CloseAll*>(ac2Perform)) // ac2Perform instanceof CloseAll
-			resIsOpen = false;
 	}
 }
 Restaurant::~Restaurant()
