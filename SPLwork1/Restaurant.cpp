@@ -6,6 +6,8 @@
 #include <stdexcept>
 #include <sstream>
 
+#include "ActionFactory.h"
+
 using namespace std;
 
 
@@ -15,6 +17,7 @@ Restaurant::Restaurant()
     vector<Table*> tables;
     vector<Dish> menu;
     vector<BaseAction*> actionsLog;
+	ActionFactory factory;
 }
 
 Restaurant::Restaurant(const string &configFilePath)
@@ -127,6 +130,10 @@ vector<Dish> & Restaurant ::getMenu()
 {
     return menu;
 }
+void Restaurant::RemoveFutereCustomerIDs(int amount)
+{
+	factory.removeCustomerIDs(amount);
+}
 int Restaurant::getNumOfTables() const
 {
    return static_cast<int>(tables.size());
@@ -138,8 +145,22 @@ Table* Restaurant::getTable(int ind)
 
 void Restaurant::start()
 {
-    cout<<"Restaurant is now open!"<<endl;
+	string command;
+	BaseAction* ac2Perform;
+	bool resIsOpen = open;
+	
+	cout<<"Restaurant is now open!"<<endl;
 
+	while (resIsOpen) // change here later
+	{
+		std::cin >> command;
+		ac2Perform = factory.getAction(command);
+		actionsLog.push_back(ac2Perform);
+		ac2Perform->act(*this);
+
+		if (dynamic_cast<CloseAll*>(ac2Perform)) // ac2Perform instanceof CloseAll
+			resIsOpen = false;
+	}
 }
 Restaurant::~Restaurant()
 {

@@ -62,6 +62,8 @@ void BaseAction::error(std::string errorMsg)
 {
 	status = ERROR;
 	this->errorMsg = errorMsg; 
+
+	cout << "Error: +" + errorMsg;
 }
 
 std::string BaseAction::getErrorMsg() const
@@ -135,7 +137,7 @@ void OpenTable::act(Restaurant & restaurant)
 
 		//Add customers
 		for each (Customer* cus in customers)
-			table->addCustomer(cus);
+			table->addCustomer(cus->clone());
 
 		complete(); // action excecuted succesfully
 
@@ -143,6 +145,7 @@ void OpenTable::act(Restaurant & restaurant)
 	catch (const std::exception&)
 	{
 		error("Table does not exist or is already open");
+		restaurant.RemoveFutereCustomerIDs(static_cast<int>(customers.size())); // failed to add, so returning back woth the ids
 	}
 
 	//if (table != nullptr)
@@ -274,7 +277,7 @@ void MoveCustomer::act(Restaurant & restaurant)
 		destenation = restaurant.getTable(dstTable);
 		customer = sorce->getCustomer(id);
 		
-		destenation->addCustomer(customer);		
+		destenation->addCustomer(customer->clone());		
 		std::vector<OrderPair>& AllsorceOrders = sorce->getOrders(); // banana ?
 
 		//moving orders
