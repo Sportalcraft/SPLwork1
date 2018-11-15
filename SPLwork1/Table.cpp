@@ -77,6 +77,7 @@ void Table::removeCustomer(int id)
 			// the customer was found, need to delete it
 			delete cus; // delete the custoner object
 			customersList.erase(customersList.begin() + pos); //remove pointer reom vector
+			break;
 		}
 
 		pos++;

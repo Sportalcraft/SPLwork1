@@ -153,7 +153,7 @@ int Restaurant::getNumOfTables() const
 }
 Table* Restaurant::getTable(int ind)
 {
-    return tables[ind];
+	 return tables[ind -1]; // no cloneing!
 }
 
 void Restaurant::start()
@@ -165,11 +165,13 @@ void Restaurant::start()
 
 	while (open) // restorunt still open
 	{
-		std::cin >> command;
+		std::getline(std::cin, command);
 		ac2Perform = factory.getAction(command);
 		actionsLog.push_back(ac2Perform);
 		ac2Perform->act(*this);
 	}
+
+	system("pause");; // in order to wait for the user
 }
 Restaurant::~Restaurant()
 {

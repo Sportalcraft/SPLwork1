@@ -63,7 +63,7 @@ void BaseAction::error(std::string errorMsg)
 	status = ERROR;
 	this->errorMsg = errorMsg; 
 
-	cout << "Error: +" + errorMsg;
+	cout << "Error: " + errorMsg << endl;
 }
 
 std::string BaseAction::getErrorMsg() const
@@ -77,9 +77,12 @@ std::string BaseAction::getErrorToString() const
 		return "Completed";
 
 	if (getStatus() == ERROR)
-		return getErrorMsg();
+		return "Error :" + getErrorMsg();
 
-	return std::string(); 
+	if (getStatus() == PENDING)
+		return "PENDING";
+
+	throw exception();
 }
 
 std::string BaseAction::getPrmetersString() const
@@ -139,6 +142,8 @@ void OpenTable::act(Restaurant & restaurant)
 		for each (Customer* cus in customers)
 			table->addCustomer(cus->clone());
 
+		table->openTable();
+
 		complete(); // action excecuted succesfully
 
 	}
@@ -168,7 +173,7 @@ std::string OpenTable::getPrmetersString() const
 	
 	string s = BaseAction::getPrmetersString() + std::to_string(tableId) + " ";
 	for each (Customer* cus in customers)
-		s += cus->toString();
+		s += cus->toString() + " ";
 
 	return s;
 }
@@ -316,7 +321,7 @@ std::string MoveCustomer::toString() const
 
 std::string MoveCustomer::getPrmetersString() const
 {
-	return BaseAction::getPrmetersString() + std::to_string(srcTable) + std::to_string(dstTable) + std::to_string(id);
+	return BaseAction::getPrmetersString() + std::to_string(srcTable) + " " + std::to_string(dstTable) + " " + std::to_string(id);
 }
 
 Close::Close(int id) :BaseAction(), tableId(id)
@@ -410,11 +415,20 @@ CloseAll & CloseAll::operator=(CloseAll && other)
 void CloseAll::act(Restaurant & restaurant)
 {
 	int numOfTables = restaurant.getNumOfTables();
+	Table* table;
+	int bill;
 
-	for (int i = 0; i < numOfTables; i++)
+	for (int tableId = 1; tableId <= numOfTables; tableId++)
 	{
-		Close closeAc(i);
-		closeAc.act(restaurant);
+		table = restaurant.getTable(tableId);
+
+		if (table->isOpen()) // table must be open
+		{
+			bill = table->getBill();
+			table->closeTable();
+
+			std::cout << std::string("Table ") + std::to_string(tableId) + " was closed. Bill " + std::to_string(bill) + "NIS" << std::endl;
+		}
 	}
 
 	restaurant.close();
@@ -513,15 +527,21 @@ void PrintTableStatus::act(Restaurant & restaurant)
 		if (table->isOpen()) // there is customers in it
 		{
 			//print customers
+			std::cout << "Customers:" << endl;
+
 			for each (Customer* cus in table->getCustomers())
 				std::cout << std::to_string(cus->getId()) + " " + cus->getName() << std::endl;
 
 			//print orders
+			std::cout << "Orders:" << endl;
+
 			for each (OrderPair pair in table->getOrders())
 				std::cout << pair.second.getName() + " " + std::to_string(pair.second.getPrice()) + "NIS " + std::to_string(pair.first) << std::endl;
 
 			//print bill
-			std::cout << "Current bill: " + table->getBill() + std::string("NIS") << std::endl; 
+			std::cout << "Current Bill: " + std::to_string(table->getBill()) + "NIS" << std::endl; 
+		
+			complete();
 		}
 
 	}
@@ -581,7 +601,8 @@ void PrintActionsLog::act(Restaurant & restaurant)
 {
 	//print all actions
 	for each (BaseAction* act in restaurant.getActionsLog())
-		std::cout << act << std::endl; 
+		if (act != this) // shhuld not print self
+			std::cout << act->toString() << std::endl;
 }
 
 BaseAction * PrintActionsLog::clone() const
