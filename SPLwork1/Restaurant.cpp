@@ -5,7 +5,7 @@
 #include "string"
 #include <stdexcept>
 #include <sstream>
-
+#include <sstream>
 using namespace std;
 
 
@@ -139,6 +139,21 @@ Table* Restaurant::getTable(int ind)
 void Restaurant::start()
 {
     cout<<"Restaurant is now open!"<<endl;
+	string s;
+	cin >> s;
+	if(s.substr(0,4)=="open")
+	{
+		int idTable = stoi(s.substr(5, 6));
+		vector<Customer> customers;
+
+		istringstream iss(s.substr(7));
+		do
+		{
+			string subs;
+			iss >> subs;
+			
+		} while (iss);
+	}
 	
 }
 Restaurant::~Restaurant()
