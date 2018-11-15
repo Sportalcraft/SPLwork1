@@ -139,10 +139,7 @@ Table* Restaurant::getTable(int ind)
 void Restaurant::start()
 {
     cout<<"Restaurant is now open!"<<endl;
-	for(int i=0; i<getNumOfTables();i++)
-	{
-		tables[i]->openTable();
-	}
+	
 }
 Restaurant::~Restaurant()
 {
