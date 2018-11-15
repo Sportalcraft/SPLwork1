@@ -57,12 +57,12 @@ Restaurant::Restaurant(const string &configFilePath)
 						continue;
 					else
 					{
-						vector<int> vect;
 						stringstream ss(s);
 						int i;
 						while (ss >> i)
 						{
-							vect.push_back(i);
+							Table *t = new Table(i);
+							tables.push_back(t);
 							if (ss.peek() == ',')
 								ss.ignore();
 						}
