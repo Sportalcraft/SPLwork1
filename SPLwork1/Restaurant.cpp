@@ -1,10 +1,10 @@
 #include "Restaurant.h"
 #include "vector"
-#include "iostream"
-#include "fstream"
 #include "string"
 #include <stdexcept>
 #include <sstream>
+#include <iostream>
+#include <fstream>
 
 #include "ActionFactory.h"
 
@@ -22,20 +22,23 @@ Restaurant::Restaurant()
 
 Restaurant::Restaurant(const string &configFilePath)
 {
-	open = true;
-
 	ifstream ifs;
-	if (!ifs.is_open())
-		throw std::runtime_error("file not open");
-	ifs.open(configFilePath);
 	string s;
+	int dishID = 0;
+	
+	open = true;
+	ifs.open(configFilePath);
+
+	if (ifs.fail())
+		throw std::runtime_error("file not open");
+
 	while (getline(ifs, s))
 	{
 		if (s == "")
 			continue;
 		else
 		{
-			if (s == "#Number of tables.")
+			if (s == "#number of tables")
 			{
 				while (getline(ifs, s)) {
 					if (s == "")
@@ -49,7 +52,7 @@ Restaurant::Restaurant(const string &configFilePath)
 					}
 				}
 			}
-			else if (s == "#Tables")
+			else if (s == "#tables description")
 			{
 				while (getline(ifs, s))
 				{
@@ -66,6 +69,7 @@ Restaurant::Restaurant(const string &configFilePath)
 							if (ss.peek() == ',')
 								ss.ignore();
 						}
+						break;
 					}
 				}
 			}
@@ -75,40 +79,45 @@ Restaurant::Restaurant(const string &configFilePath)
 				{
 					if (s == "")
 						continue;
-					else {
-						vector<string> result;
-						int i = 0;
-						ifs >> s;
-						while (ifs.good())
-						{
-							string substr;
-							getline(ifs, substr, ',');
-							result.push_back(substr);
-						}
-						stringstream num1(result[2]);
-						int x1 = 0;
-						num1 >> x1;
-						if(result[1]=="VEG"){
-							Dish d(i, result[0], x1, DishType(VEG));
-							menu.push_back(d);
-						}
-							
-						else if(result[1]=="SPC"){
-							Dish d(i, result[0], x1, DishType(SPC));
-							menu.push_back(d);
-						}
-							
-						else if(result[1] == "BVG"){
-							Dish d(i, result[0], x1, DishType(BVG));
-							menu.push_back(d);
-						}
-							
-						else{ 
-							Dish d(i, result[0], x1, DishType(ALC)); 
-							menu.push_back(d);
-						}				
+	
+					vector<string> result;
+					string temp;
+
+					int i = 0;
+
+					for (int wordnum = 1; wordnum <= 3; wordnum++)
+					{
+						for (; i < s.size() && s[i] != ','; i++)
+							temp += s[i];
+
+						result.push_back(temp);
+						temp.clear();
 						i++;
 					}
+
+					int price = atoi(result[2].c_str());
+
+					if(result[1]=="VEG"){
+						Dish d(dishID, result[0], price, DishType(VEG));
+						menu.push_back(d);
+					}
+							
+					else if(result[1]=="SPC"){
+						Dish d(dishID, result[0], price, DishType(SPC));
+						menu.push_back(d);
+					}
+							
+					else if(result[1] == "BVG"){
+						Dish d(dishID, result[0], price, DishType(BVG));
+						menu.push_back(d);
+					}
+							
+					else{ 
+						Dish d(dishID, result[0], price, DishType(ALC));
+						menu.push_back(d);
+					}				
+					
+					dishID++;
 				}
 			}
 		}
