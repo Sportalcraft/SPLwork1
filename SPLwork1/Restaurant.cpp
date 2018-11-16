@@ -167,8 +167,8 @@ void Restaurant::start()
 	{
 		std::getline(std::cin, command);
 		ac2Perform = factory.getAction(command);
-		actionsLog.push_back(ac2Perform);
 		ac2Perform->act(*this);
+		actionsLog.push_back(ac2Perform);		
 	}
 
 	system("pause");; // in order to wait for the user

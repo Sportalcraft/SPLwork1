@@ -129,16 +129,14 @@ void Table::order(const std::vector<Dish>& menu)
 	{
 		cusorder = cus->order(menu);
 
-		for each (Dish dish in menu)
-		{
-			if (std::find(cusorder.begin(), cusorder.end(), dish.getId()) != cusorder.end()) // ordered dish
-			{
-				orderList.push_back(OrderPair(cus->getId(), dish)); // push order
-
-				//print order
-				std::cout << cus->getName() + " ordered " + dish.getName() << std::endl;
-			}
-		}
+		for each (int dishID in cusorder)
+			for (Dish dish : menu)
+				if (dish.getId() == dishID)
+				{
+					orderList.push_back(OrderPair(cus->getId(), dish)); // push order
+					
+					std::cout << cus->getName() + " ordered " + dish.getName() << std::endl; //print order
+				}
 	}
 }
 

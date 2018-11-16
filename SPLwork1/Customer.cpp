@@ -12,11 +12,11 @@ Customer ::Customer(string c_name, int c_id) : name(c_name) , id(c_id)
 	vector<Dish> orders;
 }
 
-Customer::Customer(const Customer & Other) : Customer(Other.getName(), Other.getId())
+Customer::Customer(const Customer & Other) : name(Other.name), id(Other.id), orders(Other.orders)
 {
 }
 
-Customer::Customer(Customer && Other) : Customer(Other.getName(), Other.getId())
+Customer::Customer(Customer && Other) : name(Other.name), id(Other.id), orders(Other.orders)
 {
 }
 
@@ -218,10 +218,10 @@ vector<int> SpicyCustomer ::order(const vector <Dish> &menu)
 AlchoholicCustomer::AlchoholicCustomer(string name, int id): Customer (name, id), sorted(false), next2Order(0)
 {
 }
-AlchoholicCustomer::AlchoholicCustomer(const AlchoholicCustomer & Other) : Customer(Other) , sorted(false), next2Order(0)
+AlchoholicCustomer::AlchoholicCustomer(const AlchoholicCustomer & Other) : Customer(Other) , sorted(Other.sorted), next2Order(Other.next2Order)
 {
 }
-AlchoholicCustomer::AlchoholicCustomer(AlchoholicCustomer && Other) : Customer(Other), sorted(false), next2Order(0)
+AlchoholicCustomer::AlchoholicCustomer(AlchoholicCustomer && Other) : Customer(Other), sorted(Other.sorted), next2Order(Other.next2Order)
 {
 }
 AlchoholicCustomer::~AlchoholicCustomer()
