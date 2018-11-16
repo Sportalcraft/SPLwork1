@@ -150,7 +150,7 @@ int Restaurant::getNumOfTables() const
 }
 Table* Restaurant::getTable(int ind)
 {
-	if (ind > tables.size())
+	if (ind > tables.size() | ind <= 0)
 		throw std::exception("table does not exist!");
 	
 	return tables[ind -1]; // no cloneing!
