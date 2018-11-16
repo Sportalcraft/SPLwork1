@@ -279,11 +279,14 @@ void MoveCustomer::act(Restaurant & restaurant)
 		sorce = restaurant.getTable(srcTable);
 		destenation = restaurant.getTable(dstTable);
 		customer = sorce->getCustomer(id);
-		
-		destenation->addCustomer(customer);		
 		std::vector<OrderPair>& AllsorceOrders = sorce->getOrders(); // banana ?
 		std::vector<OrderPair>& AlldestanationOrders = destenation->getOrders(); // banana ?
 
+		if (!sorce->isOpen() | !destenation->isOpen())
+			throw std::exception("Both tables must be open!");
+
+		destenation->addCustomer(customer);		
+		
 		//moving orders
 		for each (OrderPair pair in AllsorceOrders)
 			if (pair.first == customer->getId()) // the order was made byour customer
@@ -318,7 +321,7 @@ BaseAction * MoveCustomer::clone() const
 
 std::string MoveCustomer::toString() const
 {
-	return "Move " + getPrmetersString() + " " + getErrorToString();
+	return "move " + getPrmetersString() + " " + getErrorToString();
 }
 
 std::string MoveCustomer::getPrmetersString() const
@@ -418,7 +421,7 @@ void CloseAll::act(Restaurant & restaurant)
 {
 	int numOfTables = restaurant.getNumOfTables();
 
-	for (int tableId = 1; tableId <= numOfTables; tableId++)
+	for (int tableId = 0; tableId < numOfTables; tableId++)
 	{
 		if (restaurant.getTable(tableId)->isOpen())
 		{
@@ -474,7 +477,7 @@ void PrintMenu::act(Restaurant & restaurant)
 	std::string types[4] = { "VEG", "SPC", "BVG", "ALC" };
 
 	for each (Dish dish in restaurant.getMenu())	
-		std::cout << dish.getName() + "," + types[dish.getType()] + "," + std::to_string(dish.getPrice()) << std::endl;
+		std::cout << dish.getName() + " " + types[dish.getType()] + " " + std::to_string(dish.getPrice()) + "NIS" << std::endl;
 
 	complete();
 }

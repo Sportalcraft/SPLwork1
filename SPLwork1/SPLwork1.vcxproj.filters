@@ -36,9 +36,6 @@
     <ClInclude Include="CustomerFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Restaurant.cpp">
@@ -67,13 +64,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="config1.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
     <Text Include="input.txt">
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="Output.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="config.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

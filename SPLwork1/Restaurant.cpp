@@ -150,10 +150,10 @@ int Restaurant::getNumOfTables() const
 }
 Table* Restaurant::getTable(int ind)
 {
-	if (ind > tables.size() | ind <= 0)
+	if ((ind > tables.size()) | (ind < 0))
 		throw std::exception("table does not exist!");
 	
-	return tables[ind -1]; // no cloneing!
+	return tables[ind]; // no cloneing!
 }
 
 void Restaurant::start()
@@ -212,6 +212,9 @@ void Restaurant::copy(const Restaurant & Other)
 	//copy action log
 	for each (BaseAction* action in Other.actionsLog)
 		actionsLog.push_back(action->clone());
+
+	//copy factory
+	factory = Other.factory;
 }
 
 void Restaurant::move(Restaurant && Other)
@@ -230,6 +233,9 @@ void Restaurant::move(Restaurant && Other)
 	//move action log
 	for each (BaseAction* action in Other.actionsLog)
 		actionsLog.push_back(action);
+
+	//move factory
+	factory = Other.factory;
 
 	//Delete old
 	Other.open = false;

@@ -24,7 +24,6 @@
     <ClInclude Include="Customer.h" />
     <ClInclude Include="CustomerFactory.h" />
     <ClInclude Include="Dish.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Restaurant.h" />
     <ClInclude Include="Table.h" />
   </ItemGroup>
@@ -39,7 +38,7 @@
     <ClCompile Include="Table.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="config1.txt" />
+    <Text Include="config.txt" />
     <Text Include="input.txt" />
     <Text Include="Output.txt" />
   </ItemGroup>

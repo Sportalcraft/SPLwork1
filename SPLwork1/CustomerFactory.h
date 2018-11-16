@@ -7,7 +7,11 @@ class CustomerFactory
 {
 public:
 	CustomerFactory();
+	CustomerFactory(const CustomerFactory& Other);
+	CustomerFactory(CustomerFactory&& Other);
 	~CustomerFactory();
+	CustomerFactory& operator=(const CustomerFactory& Other);
+	CustomerFactory& operator=(CustomerFactory&& Other);
 
 	Customer* getCustomer(string& customerString);
 

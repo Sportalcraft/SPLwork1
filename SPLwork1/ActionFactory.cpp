@@ -7,9 +7,33 @@ ActionFactory::ActionFactory() : customerFactory()
 {
 }
 
+ActionFactory::ActionFactory(const ActionFactory & Other) : customerFactory(Other.customerFactory)
+{
+}
+
+ActionFactory::ActionFactory(ActionFactory && Other) : customerFactory(Other.customerFactory)
+{
+}
+
 
 ActionFactory::~ActionFactory()
 {
+}
+
+ActionFactory & ActionFactory::operator=(const ActionFactory & Other)
+{
+	if (this != &Other)
+		customerFactory = Other.customerFactory;
+
+	return *this;
+}
+
+ActionFactory & ActionFactory::operator=(ActionFactory && Other)
+{
+	if (this != &Other)
+		customerFactory = Other.customerFactory;
+
+	return *this;
 }
 
 
@@ -47,7 +71,7 @@ BaseAction * ActionFactory::getAction(string& actionString)
 
 	if (keyword == "log")
 		return getPrintActionsLog(splited);
-	
+
 	if (keyword == "backup")
 		return getBackupRestaurant(splited);
 

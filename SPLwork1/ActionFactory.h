@@ -9,12 +9,17 @@ class ActionFactory
 {
 public:
 	ActionFactory();
+	ActionFactory(const ActionFactory& Other);
+	ActionFactory(ActionFactory&& Other);
 	~ActionFactory();
+	ActionFactory& operator=(const ActionFactory& Other);
+	ActionFactory& operator=(ActionFactory&& Other);
+
 	BaseAction* getAction(string& actionString);
 private:
 	CustomerFactory customerFactory;
-	
-	OpenTable* getOpenTable(vector<std::string>& actionString) ;
+
+	OpenTable* getOpenTable(vector<std::string>& actionString);
 	Order* getOrder(vector<std::string>& actionString) const;
 	MoveCustomer* getMoveCustomer(vector<std::string>& actionString) const;
 	Close* getClose(vector<std::string>& actionString) const;
