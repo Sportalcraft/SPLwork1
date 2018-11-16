@@ -113,11 +113,6 @@ std::vector<OrderPair>& Table::getOrders()
 	return orderList;
 }
 
-void Table::addOrder(OrderPair& order)
-{
-	orderList.push_back(order);
-}
-
 void Table::order(const std::vector<Dish>& menu)
 {
 	std::vector<int> cusorder;

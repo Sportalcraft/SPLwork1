@@ -9,7 +9,7 @@ enum DishType {
 
 class Dish {
 public:
-	Dish(int d_id, string d_name, int d_price, DishType d_type);
+	Dish(int d_id, std::string d_name, int d_price, DishType d_type);
 	Dish(const Dish& Other);
 	Dish(Dish&& Other);
 	~Dish();

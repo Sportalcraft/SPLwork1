@@ -21,7 +21,6 @@ public:
 	Customer* getCustomer(int id);
 	std::vector<Customer*>& getCustomers();
 	std::vector<OrderPair>& getOrders();
-	void addOrder(OrderPair& order); // cat
 	void order(const std::vector<Dish> &menu);
 	void openTable();
 	void closeTable();

@@ -77,7 +77,7 @@ std::string BaseAction::getErrorToString() const
 		return "Completed";
 
 	if (getStatus() == ERROR)
-		return "Error :" + getErrorMsg();
+		return "Error: " + getErrorMsg();
 
 	if (getStatus() == PENDING)
 		return "PENDING";
@@ -282,11 +282,12 @@ void MoveCustomer::act(Restaurant & restaurant)
 		
 		destenation->addCustomer(customer);		
 		std::vector<OrderPair>& AllsorceOrders = sorce->getOrders(); // banana ?
+		std::vector<OrderPair>& AlldestanationOrders = destenation->getOrders(); // banana ?
 
 		//moving orders
 		for each (OrderPair pair in AllsorceOrders)
 			if (pair.first == customer->getId()) // the order was made byour customer
-				destenation->addOrder(pair);
+				AlldestanationOrders.push_back(pair);
 
 		sorce->removeCustomer(id); // remive customer from src
 
@@ -606,7 +607,7 @@ BaseAction * PrintActionsLog::clone() const
 
 std::string PrintActionsLog::toString() const
 {
-	return "log  " + getErrorToString(); 
+	return "log " + getErrorToString(); 
 }
 
 BackupRestaurant::BackupRestaurant() : BaseAction()
