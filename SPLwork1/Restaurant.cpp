@@ -5,7 +5,9 @@
 #include "string"
 #include <stdexcept>
 #include <sstream>
-#include <sstream>
+
+#include "ActionFactory.h"
+
 using namespace std;
 
 
@@ -15,6 +17,7 @@ Restaurant::Restaurant()
     vector<Table*> tables;
     vector<Dish> menu;
     vector<BaseAction*> actionsLog;
+	ActionFactory factory;
 }
 
 Restaurant::Restaurant(const string &configFilePath)
@@ -54,12 +57,12 @@ Restaurant::Restaurant(const string &configFilePath)
 						continue;
 					else
 					{
+						vector<int> vect;
 						stringstream ss(s);
 						int i;
 						while (ss >> i)
 						{
-							Table *t = new Table(i);
-							tables.push_back(t);
+							vect.push_back(i);
 							if (ss.peek() == ',')
 								ss.ignore();
 						}
@@ -127,6 +130,10 @@ vector<Dish> & Restaurant ::getMenu()
 {
     return menu;
 }
+void Restaurant::RemoveFutereCustomerIDs(int amount)
+{
+	factory.removeCustomerIDs(amount);
+}
 int Restaurant::getNumOfTables() const
 {
    return static_cast<int>(tables.size());
@@ -138,23 +145,22 @@ Table* Restaurant::getTable(int ind)
 
 void Restaurant::start()
 {
-    cout<<"Restaurant is now open!"<<endl;
-	string s;
-	cin >> s;
-	if(s.substr(0,4)=="open")
-	{
-		int idTable = stoi(s.substr(5, 6));
-		vector<Customer> customers;
-
-		istringstream iss(s.substr(7));
-		do
-		{
-			string subs;
-			iss >> subs;
-			
-		} while (iss);
-	}
+	string command;
+	BaseAction* ac2Perform;
+	bool resIsOpen = open;
 	
+	cout<<"Restaurant is now open!"<<endl;
+
+	while (resIsOpen) // change here later
+	{
+		std::cin >> command;
+		ac2Perform = factory.getAction(command);
+		actionsLog.push_back(ac2Perform);
+		ac2Perform->act(*this);
+
+		if (dynamic_cast<CloseAll*>(ac2Perform)) // ac2Perform instanceof CloseAll
+			resIsOpen = false;
+	}
 }
 Restaurant::~Restaurant()
 {
