@@ -89,7 +89,7 @@ private:
 	int next2Order;
 
 	void sortOrders(const vector<Dish> &menu);
-	bool wayToSort(Dish& d1, Dish& d2) const;
+	bool wayToSort(const Dish& d1, const Dish& d2) const;
 };
 
 

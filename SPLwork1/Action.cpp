@@ -63,7 +63,7 @@ void BaseAction::error(std::string errorMsg)
 	status = ERROR;
 	this->errorMsg = errorMsg; 
 
-	cout << "Error: +" + errorMsg;
+	cout << "Error: " + errorMsg << endl;
 }
 
 std::string BaseAction::getErrorMsg() const
@@ -77,9 +77,12 @@ std::string BaseAction::getErrorToString() const
 		return "Completed";
 
 	if (getStatus() == ERROR)
-		return getErrorMsg();
+		return "Error :" + getErrorMsg();
 
-	return std::string(); 
+	if (getStatus() == PENDING)
+		return "PENDING";
+
+	throw exception();
 }
 
 std::string BaseAction::getPrmetersString() const
@@ -139,6 +142,8 @@ void OpenTable::act(Restaurant & restaurant)
 		for each (Customer* cus in customers)
 			table->addCustomer(cus->clone());
 
+		table->openTable();
+
 		complete(); // action excecuted succesfully
 
 	}
@@ -168,7 +173,7 @@ std::string OpenTable::getPrmetersString() const
 	
 	string s = BaseAction::getPrmetersString() + std::to_string(tableId) + " ";
 	for each (Customer* cus in customers)
-		s += cus->toString();
+		s += cus->toString() + " ";
 
 	return s;
 }
@@ -251,11 +256,11 @@ MoveCustomer::MoveCustomer(int src, int dst, int customerId) :BaseAction(), srcT
 {
 }
 
-MoveCustomer::MoveCustomer(const MoveCustomer & Other) : BaseAction(Other), srcTable(Other.srcTable), dstTable(Other.srcTable), id(Other.srcTable)
+MoveCustomer::MoveCustomer(const MoveCustomer & Other) : BaseAction(Other), srcTable(Other.srcTable), dstTable(Other.dstTable), id(Other.id)
 {
 }
 
-MoveCustomer::MoveCustomer(MoveCustomer && Other) : BaseAction(Other), srcTable(Other.srcTable), dstTable(Other.srcTable), id(Other.srcTable)
+MoveCustomer::MoveCustomer(MoveCustomer && Other) : BaseAction(Other), srcTable(Other.srcTable), dstTable(Other.dstTable), id(Other.id)
 {
 }
 
@@ -316,7 +321,7 @@ std::string MoveCustomer::toString() const
 
 std::string MoveCustomer::getPrmetersString() const
 {
-	return BaseAction::getPrmetersString() + std::to_string(srcTable) + std::to_string(dstTable) + std::to_string(id);
+	return BaseAction::getPrmetersString() + std::to_string(srcTable) + " " + std::to_string(dstTable) + " " + std::to_string(id);
 }
 
 Close::Close(int id) :BaseAction(), tableId(id)
@@ -411,12 +416,16 @@ void CloseAll::act(Restaurant & restaurant)
 {
 	int numOfTables = restaurant.getNumOfTables();
 
-	for (int i = 0; i < numOfTables; i++)
+	for (int tableId = 1; tableId <= numOfTables; tableId++)
 	{
-		Close closeAc(i);
-		closeAc.act(restaurant);
+		if (restaurant.getTable(tableId)->isOpen())
+		{
+			Close close(tableId);
+			close.act(restaurant);
+		}
 	}
 
+	restaurant.close();
 	complete();
 }
 
@@ -464,6 +473,8 @@ void PrintMenu::act(Restaurant & restaurant)
 
 	for each (Dish dish in restaurant.getMenu())	
 		std::cout << dish.getName() + " " + types[dish.getType()] + " " + std::to_string(dish.getPrice()) << std::endl;
+
+	complete();
 }
 
 BaseAction * PrintMenu::clone() const
@@ -497,34 +508,35 @@ void PrintTableStatus::act(Restaurant & restaurant)
 	Table* table;
 	std::string* status = nullptr;
 
-	try
+	table = restaurant.getTable(tableId);
+
+	if (table->isOpen())
+		status = new std::string("open");
+	else
+		status = new std::string("closed");
+
+	//print statuse
+	std::cout << "Table " + std::to_string(tableId) + " status: " + *status << std::endl;
+
+	if (table->isOpen()) // there is customers in it
 	{
-		table = restaurant.getTable(tableId);
+		//print customers
+		std::cout << "Customers:" << endl;
 
-		if (table->isOpen())
-			status = new std::string("Open");
-		else
-			status = new std::string("closed");
+		for each (Customer* cus in table->getCustomers())
+			std::cout << std::to_string(cus->getId()) + " " + cus->getName() << std::endl;
 
-		//print statuse
-		std::cout << "Table " + std::to_string(tableId) + " status: " + *status << std::endl;
+		//print orders
+		std::cout << "Orders:" << endl;
 
-		if (table->isOpen()) // there is customers in it
-		{
-			//print customers
-			for each (Customer* cus in table->getCustomers())
-				std::cout << std::to_string(cus->getId()) + " " + cus->getName() << std::endl;
+		for each (OrderPair pair in table->getOrders())
+			std::cout << pair.second.getName() + " " + std::to_string(pair.second.getPrice()) + "NIS " + std::to_string(pair.first) << std::endl;
 
-			//print orders
-			for each (OrderPair pair in table->getOrders())
-				std::cout << pair.second.getName() + " " + std::to_string(pair.second.getPrice()) + "NIS " + std::to_string(pair.first) << std::endl;
-
-			//print bill
-			std::cout << "Current bill: " + table->getBill() + std::string("NIS") << std::endl; 
-		}
-
+		//print bill
+		std::cout << "Current Bill: " + std::to_string(table->getBill()) + "NIS" << std::endl; 
 	}
-	catch (const std::exception&) {}
+
+	complete();
 
 	//if (table != nullptr)
 	//	delete table;
@@ -580,7 +592,10 @@ void PrintActionsLog::act(Restaurant & restaurant)
 {
 	//print all actions
 	for each (BaseAction* act in restaurant.getActionsLog())
-		std::cout << act << std::endl; 
+		if (act != this) // shhuld not print self
+			std::cout << act->toString() << std::endl;
+
+	complete();
 }
 
 BaseAction * PrintActionsLog::clone() const
@@ -624,6 +639,8 @@ BackupRestaurant & BackupRestaurant::operator=(BackupRestaurant && other)
 void BackupRestaurant::act(Restaurant & restaurant)
 {
 	extern Restaurant* backup;
+
+	complete();
 
 	if (backup == nullptr)
 		backup = new Restaurant(restaurant);
@@ -676,7 +693,10 @@ void RestoreResturant::act(Restaurant & restaurant)
 	if (backup == nullptr) // no backup
 		error("No backup available");
 	else
+	{
 		restaurant = *backup; // restoring 
+		complete();
+	}
 }
 
 BaseAction * RestoreResturant::clone() const
