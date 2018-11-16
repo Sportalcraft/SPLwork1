@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include <fstream>
-//#include <vld.h>
+#include <vld.h>
 
 using namespace std;
 
@@ -16,10 +16,12 @@ int main(int argc, char** argv) {
 	string configurationFile = argv[1];
 	Restaurant rest(configurationFile);
 	rest.start();
+	
 	if (backup != nullptr) {
 		delete backup;
 		backup = nullptr;
 	}
 
+	system("pause");; // in order to wait for the user
 	return 0;
 }

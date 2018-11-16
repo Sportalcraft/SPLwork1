@@ -11,11 +11,10 @@ public:
 	ActionFactory();
 	~ActionFactory();
 	BaseAction* getAction(string& actionString);
-	void removeCustomerIDs(int amount);
 private:
 	CustomerFactory customerFactory;
 	
-	OpenTable* getOpenTable(vector<std::string>& actionString);
+	OpenTable* getOpenTable(vector<std::string>& actionString) ;
 	Order* getOrder(vector<std::string>& actionString) const;
 	MoveCustomer* getMoveCustomer(vector<std::string>& actionString) const;
 	Close* getClose(vector<std::string>& actionString) const;

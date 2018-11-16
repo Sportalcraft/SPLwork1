@@ -10,7 +10,6 @@ public:
 	~CustomerFactory();
 
 	Customer* getCustomer(string& customerString);
-	void removeIDs(int amount);
 
 private:
 	int nextCustomerID;

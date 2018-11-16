@@ -46,11 +46,3 @@ Customer * CustomerFactory::getCustomer(string& customerString)
 
 	return ans;
 }
-
-void CustomerFactory::removeIDs(int amount)
-{
-	if (nextCustomerID - amount < 0)
-		throw std::exception("removing too much IDs!");
-
-		nextCustomerID = nextCustomerID - amount;
-}

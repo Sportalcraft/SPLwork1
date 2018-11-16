@@ -139,10 +139,7 @@ vector<Dish> & Restaurant ::getMenu()
 {
     return menu;
 }
-void Restaurant::RemoveFutereCustomerIDs(int amount)
-{
-	factory.removeCustomerIDs(amount);
-}
+
 void Restaurant::close()
 {
 	open = false;
@@ -153,7 +150,10 @@ int Restaurant::getNumOfTables() const
 }
 Table* Restaurant::getTable(int ind)
 {
-	 return tables[ind -1]; // no cloneing!
+	if (ind > tables.size())
+		throw std::exception("table does not exist!");
+	
+	return tables[ind -1]; // no cloneing!
 }
 
 void Restaurant::start()
@@ -170,8 +170,6 @@ void Restaurant::start()
 		ac2Perform->act(*this);
 		actionsLog.push_back(ac2Perform);
 	}
-
-	system("pause");; // in order to wait for the user
 }
 Restaurant::~Restaurant()
 {

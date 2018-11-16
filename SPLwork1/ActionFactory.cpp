@@ -57,11 +57,6 @@ BaseAction * ActionFactory::getAction(string& actionString)
 	throw std::exception("wrong syntax!");
 }
 
-void ActionFactory::removeCustomerIDs(int amount)
-{
-	customerFactory.removeIDs(amount);
-}
-
 OpenTable * ActionFactory::getOpenTable(vector<std::string> & actionString)
 {
 	if (actionString[0] != "open")

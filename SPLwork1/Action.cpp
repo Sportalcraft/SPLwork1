@@ -150,7 +150,6 @@ void OpenTable::act(Restaurant & restaurant)
 	catch (const std::exception&)
 	{
 		error("Table does not exist or is already open");
-		restaurant.RemoveFutereCustomerIDs(static_cast<int>(customers.size())); // failed to add, so returning back woth the ids
 	}
 
 	//if (table != nullptr)
@@ -291,6 +290,9 @@ void MoveCustomer::act(Restaurant & restaurant)
 				destenation->addOrder(pair);
 
 		sorce->removeCustomer(id); // remive customer from src
+
+		if (sorce->getCustomers().size() == 0) // it was the las customer in the tabke
+			sorce->closeTable();
 
 		complete(); // action excecuted succesfully
 	}
