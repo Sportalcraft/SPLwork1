@@ -145,7 +145,6 @@ void OpenTable::act(Restaurant & restaurant)
 		table->openTable();
 
 		complete(); // action excecuted succesfully
-
 	}
 	catch (const std::exception&)
 	{

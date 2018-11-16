@@ -17,8 +17,8 @@ BaseAction * ActionFactory::getAction(string& actionString)
 {
 	string keyword;
 	std::vector<std::string> splited;
-
 	std::istringstream iss(actionString);
+
 	for (std::string s; iss >> s; )
 		splited.push_back(s);
 
