@@ -140,7 +140,7 @@ void OpenTable::act(Restaurant & restaurant)
 
 		//Add customers
 		for each (Customer* cus in customers)
-			table->addCustomer(cus->clone());
+			table->addCustomer(cus);
 
 		table->openTable();
 
@@ -282,7 +282,7 @@ void MoveCustomer::act(Restaurant & restaurant)
 		destenation = restaurant.getTable(dstTable);
 		customer = sorce->getCustomer(id);
 		
-		destenation->addCustomer(customer->clone());		
+		destenation->addCustomer(customer);		
 		std::vector<OrderPair>& AllsorceOrders = sorce->getOrders(); // banana ?
 
 		//moving orders
@@ -472,7 +472,7 @@ void PrintMenu::act(Restaurant & restaurant)
 	std::string types[4] = { "VEG", "SPC", "BVG", "ALC" };
 
 	for each (Dish dish in restaurant.getMenu())	
-		std::cout << dish.getName() + " " + types[dish.getType()] + " " + std::to_string(dish.getPrice()) << std::endl;
+		std::cout << dish.getName() + "," + types[dish.getType()] + "," + std::to_string(dish.getPrice()) << std::endl;
 
 	complete();
 }
