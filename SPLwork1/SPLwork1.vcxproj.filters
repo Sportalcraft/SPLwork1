@@ -70,5 +70,11 @@
     <Text Include="config1.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="input.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Output.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

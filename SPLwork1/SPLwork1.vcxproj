@@ -40,6 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="config1.txt" />
+    <Text Include="input.txt" />
+    <Text Include="Output.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F232F07C-FA2F-4B49-8573-8AE102A13659}</ProjectGuid>
